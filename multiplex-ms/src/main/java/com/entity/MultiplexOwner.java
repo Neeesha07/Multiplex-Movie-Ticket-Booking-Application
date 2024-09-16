@@ -29,5 +29,12 @@ public class MultiplexOwner {
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "multiplexOwner")
 	List<Multiplex> multiplexList;
+
+	public MultiplexOwner(String multiplexOwnerName, String multiplexOwnerMail, String multiplexOwnerPassword) {
+		super();
+		this.multiplexOwnerName = multiplexOwnerName;
+		this.multiplexOwnerMail = multiplexOwnerMail;
+		this.multiplexOwnerPassword = multiplexOwnerPassword;
+	}
 	
 }
