@@ -8,7 +8,12 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.serializer.CustomLocalDateTimeDeserializer;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -34,10 +39,30 @@ public class Multiplex {
 	String multiplexName;
 	String multiplexLocation;
 	int numberOfScreens;
-	List<LocalDateTime> allTimeSlots;
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+	//@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
+	//@ElementCollection
+	List<String> allTimeSlots;
 	
 	@JdbcTypeCode(SqlTypes.JSON)
-	Map<LocalDateTime , Integer> availableScreensPerTimeslot;
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+	//@JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
+	Map<String , Integer> availableScreensPerTimeslot;
+	public Multiplex(String multiplexName, String multiplexLocation, int numberOfScreens,
+			List<String> allTimeSlots, Map<String, Integer> availableScreensPerTimeslot,
+			Map<String, List<Integer>> seatTypeConfig, Map<String, Integer> ticketTypePrice) {
+		super();
+		this.multiplexName = multiplexName;
+		this.multiplexLocation = multiplexLocation;
+		this.numberOfScreens = numberOfScreens;
+		this.allTimeSlots = allTimeSlots;
+		this.availableScreensPerTimeslot = availableScreensPerTimeslot;
+		this.seatTypeConfig = seatTypeConfig;
+		this.ticketTypePrice = ticketTypePrice;
+		
+		
+	}
+
 	@JdbcTypeCode(SqlTypes.JSON)
 	Map<String, List<Integer>> seatTypeConfig;
 	@JdbcTypeCode(SqlTypes.JSON)
