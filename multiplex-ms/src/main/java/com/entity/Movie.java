@@ -24,15 +24,15 @@ import lombok.NoArgsConstructor;
 public class Movie {
 	@Id
 	@GeneratedValue
-	long movieId;
-	String movieName;
-	String movieGenre;
-	String movieRating;
+	private Long movieId;
+	private String movieName;
+	private String movieGenre;
+	private String movieRating;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "multiplex_Id")
-	Multiplex multiplex;
+	private Multiplex multiplex;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "movie")
-	List<Screening> screenings;
+	private List<Screening> screenings;
 }

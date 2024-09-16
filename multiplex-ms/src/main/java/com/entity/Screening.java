@@ -24,14 +24,14 @@ import lombok.NoArgsConstructor;
 public class Screening {
 	@Id
 	@GeneratedValue
-	long screeningId;
-	LocalDateTime timeSlot;
-	List<Integer> availableSeats;
-	List<Integer> bookedSeats;
+	private Long screeningId;
+	private LocalDateTime timeSlot;
+	private List<Integer> availableSeats;
+	private List<Integer> bookedSeats;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "movie_id")
-	Movie movie;
+	private Movie movie;
 	
 	
 }

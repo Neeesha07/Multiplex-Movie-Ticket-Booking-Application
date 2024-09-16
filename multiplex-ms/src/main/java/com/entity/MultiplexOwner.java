@@ -22,19 +22,12 @@ import lombok.NoArgsConstructor;
 public class MultiplexOwner {
 	@Id
 	@GeneratedValue
-	long multiplexOwnerId;
-	String multiplexOwnerName;
-	String multiplexOwnerMail;
-	String multiplexOwnerPassword;
+	private Long multiplexOwnerId;
+	private String multiplexOwnerName;
+	private String multiplexOwnerMail;
+	private String multiplexOwnerPassword;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "multiplexOwner")
-	List<Multiplex> multiplexList;
-
-	public MultiplexOwner(String multiplexOwnerName, String multiplexOwnerMail, String multiplexOwnerPassword) {
-		super();
-		this.multiplexOwnerName = multiplexOwnerName;
-		this.multiplexOwnerMail = multiplexOwnerMail;
-		this.multiplexOwnerPassword = multiplexOwnerPassword;
-	}
+	private List<Multiplex> multiplexList;
 	
 }

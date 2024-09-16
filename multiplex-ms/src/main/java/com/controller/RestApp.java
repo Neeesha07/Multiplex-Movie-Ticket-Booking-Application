@@ -1,38 +1,29 @@
 package com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.Multiplex;
 import com.entity.MultiplexOwner;
-import com.service.MultiplexDAO;
+import com.service.MultiplexDao;
 
-
-@Controller
-@RequestMapping("/multiplexApp")
+@RestController
+@RequestMapping("/multiplex")
 public class RestApp {
-	@Autowired
-	private MultiplexDAO multiplexDao;
 	
-	@PostMapping("/addmultiplex/{owner_id}")
-	@ResponseBody
-	public String addMultiplex(@PathVariable long owner_id,@RequestBody Multiplex m) {
-		multiplexDao.addMultiplex(owner_id, m);
-		return "Multiplex added";
-	}
+	@Autowired
+	MultiplexDao dao;
 	
 	@PostMapping("/addowner")
-	@ResponseBody
-	public String addOwner(@RequestBody MultiplexOwner o) {
-		multiplexDao.addOwner(o);
-		return "Owner added";
+	public void addOwner(@RequestBody MultiplexOwner multiplexOwner) {
+		dao.addMultiplexOwner(multiplexOwner);
 	}
 	
-	
-
+	@PostMapping("/addmultiplex")
+	public void addMultiplex(@RequestBody Multiplex multiplex) {
+		dao.addMultiplex(multiplex);
+	}
 }
