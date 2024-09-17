@@ -1,0 +1,51 @@
+localhost:8081/multiplex/addowner
+{
+    "multiplexOwnerName":"karthik",
+    "multiplexOwnerMail":"raj@raj.com",
+    "multiplexOwnerPassword":"123"
+}
+
+
+localhost:8081/multiplex/addmultiplex/1
+{
+    "multiplexName":"karthik",
+    "multiplexLocation":"raj@raj.com",
+    "numberOfScreens":"12",
+    "allTimeSlots":[
+        "2023-09-16T10:00:00",
+        "2023-07-26T11:00:00"
+    ],
+    "availableScreensPerTimeslot":{
+        "2023-09-16T10:00:00":100
+    },
+    "seatTypeConfig":{
+        "silver":{
+            "beginning":10,
+            "end":20
+        }
+    },
+    "ticketTypePrice":{
+        "silver":100,
+        "gold":300,
+        "premium":500
+    }
+
+}
+
+
+localhost:8081/multiplex/addmovie/52
+
+{
+    "movieName":"Deadpool",
+    "movieRating":"R",
+    "movieGenre":"Adult"
+}
+
+localhost:8081/multiplex/addscreening/1
+{
+    "timeSlot":"2023-09-16T10:00:00",
+    "availableSeats":["1","2","3","4"],
+    "bookedSeats":[1,2,3,4]
+}
+
+
