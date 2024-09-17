@@ -49,3 +49,5 @@ localhost:8081/multiplex/addscreening/1
 }
 
 
+drop tables all_time_slots, available_screens_per_timeslot, available_seats, booked_seats, movie, movie_seq, multiplex, multiplex_owner, multiplex_owner_seq, multiplex_seq, screening,screening_seq, seat_type_config, ticket_type_price;
+
