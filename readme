@@ -1,1 +1,10 @@
-readme
+A multiplex movie booking app where a
+- customer/user has the option to book movies from their choice of multiplex and timeslot. 
+- A multiplex owner can add his multiplex with his set of movies into the application and display it to the customer.
+
+
+## Microservice List - 
+- Tickets MS
+- Multiplex MS
+- UserAuth Ms
+- Feedback MS
