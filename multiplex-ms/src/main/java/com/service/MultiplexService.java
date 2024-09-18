@@ -20,5 +20,5 @@ public interface MultiplexService {
 	public Boolean deleteMovieFromMultiplex(Long movieId);
 	public Boolean updateTicketTypePrice(Long multiplexId, TicketTypePriceRequest ticketTypePriceRequest);
 	public Boolean bookSeats(Long screeningId,Seats seats);
-//	public Integer getTicketsSoldWeekly() 
+	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid); 
 }

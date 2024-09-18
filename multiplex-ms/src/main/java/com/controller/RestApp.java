@@ -98,4 +98,10 @@ public class RestApp {
 		return "updated";
 	}
 	
+	@GetMapping("/getticketssolddaily/{ownerid}")
+	public Integer bookSeats(@PathVariable Long ownerid) {
+		return service.getTicketsSoldDailyForAllMultiplexes(ownerid);
+		
+	}
+	
 }

@@ -137,9 +137,36 @@ public class MultiplexServiceImpl implements MultiplexService{
 	@Override
 	public Boolean bookSeats(Long screeningId, Seats seats) {
 		Screening screening = screeningRepo.findById(screeningId).get();
+		List<Integer> availableseats = screening.getAvailableSeats();
+		List<Integer> bookedSeats = screening.getBookedSeats();
+		if(availableseats.containsAll(bookedSeats)) {
+			availableseats.addAll(bookedSeats);
+			availableseats.removeAll(bookedSeats);
+		}
 		screening.setBookedSeats(seats.getBookedSeats());
 		screeningRepo.save(screening);
 		return true; 
+	}
+
+	@Override
+	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid) {
+		MultiplexOwner owner = multiplexOwnerRepo.findById(ownerid).get();
+		List<Multiplex> multiplexList = owner.getMultiplexList();
+//		List<Integer> totalTickets = owner.getMultiplexList().stream()
+//				.forEach(e->e.getMovies().stream().
+//						forEach(e->e.getScreenings().stream()
+//								.forEach(e->e.getBookedSeats().stream())))
+//				.;
+		
+		
+		List<Integer> totalTickets = owner.getMultiplexList().stream()
+			    .flatMap(multiplex -> multiplex.getMovies().stream()
+			        .flatMap(movie -> movie.getScreenings().stream()
+			            .flatMap(screening -> screening.getBookedSeats().stream())))
+			    .collect(Collectors.toList());
+
+		
+		return totalTickets.size();
 	}
 	
 }
