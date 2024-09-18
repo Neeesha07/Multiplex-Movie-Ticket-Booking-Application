@@ -105,12 +105,13 @@ public class Multiplex {
 	
 	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "multiplex")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "multiplex", orphanRemoval = false)
 	private List<Movie> movies;
 	
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
+//	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "multiplex_Owner_Id")
 	private MultiplexOwner multiplexOwner;
 

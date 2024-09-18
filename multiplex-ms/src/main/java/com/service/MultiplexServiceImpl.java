@@ -98,12 +98,12 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 
 	@Override
-	public Boolean updateMovieDetails(Long movieId, String movieName, String movieGenre, String movieRating) {
+	public Boolean updateMovieDetails(Long movieId, Movie tempMovie) {
 		try {
 			Movie movie = movieRepo.findById(movieId).get();
-		movie.setMovieName(movieName);
-		movie.setMovieGenre(movieGenre);
-		movie.setMovieRating(movieRating);
+		movie.setMovieName(tempMovie.getMovieName());
+		movie.setMovieGenre(tempMovie.getMovieGenre());
+		movie.setMovieRating(tempMovie.getMovieRating());
 		}catch(Exception E)
 		{
 			return false;

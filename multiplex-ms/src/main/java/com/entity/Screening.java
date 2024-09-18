@@ -44,7 +44,8 @@ public class Screening {
 	
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
+//	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "movie_id")
 	private Movie movie;
 

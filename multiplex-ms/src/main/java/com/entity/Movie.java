@@ -33,12 +33,13 @@ public class Movie {
 	private String movieRating;
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
+//	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "multiplex_Id")
 	private Multiplex multiplex;
 	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "movie")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "movie", orphanRemoval = false)
 	private List<Screening> screenings;
 	
 	public Movie(String movieName, String movieGenre, String movieRating) {

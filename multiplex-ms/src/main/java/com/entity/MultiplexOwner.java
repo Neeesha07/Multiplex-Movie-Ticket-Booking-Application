@@ -31,7 +31,7 @@ public class MultiplexOwner {
 	private String multiplexOwnerPassword;
 	
 	@JsonManagedReference()
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "multiplexOwner")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "multiplexOwner", orphanRemoval = false)
 	private List<Multiplex> multiplexList;
 	
 }

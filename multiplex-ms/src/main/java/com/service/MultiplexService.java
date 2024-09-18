@@ -14,7 +14,7 @@ public interface MultiplexService {
 	public void addMovieToMultiplex(Movie movie, Long multiplexId);
 	public void addScreeningToMovie(Screening screening, Long movieId);
 	public List<Movie> getAllMoviesByOwnerId(Long multiplexOwnerId);
-	public Boolean updateMovieDetails(Long movieId, String movieName, String movieGenre, String movieRating);
+	public Boolean updateMovieDetails(Long movieId, Movie tempMovie);
 	public Boolean deleteMovieFromMultiplex(Long movieId);
 	public Boolean setTicketTypePrice(Long multiplexId, Map<String, Integer> ticketTypePrice);
 	public Boolean bookSeats(Long screeningId,List<Integer> bookedSeats);

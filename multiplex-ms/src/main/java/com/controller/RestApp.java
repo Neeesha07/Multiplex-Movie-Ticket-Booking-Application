@@ -3,9 +3,11 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +58,27 @@ public class RestApp {
 		
 		List<Movie> movieList =  service.getAllMoviesByOwnerId(ownerid);
 		return movieList;
+	}
+	
+	
+	@PutMapping("/updatemoviedetails/{movieid}")
+	public String updateMovieDetails(@PathVariable Long movieid, @RequestBody Movie movie) {
+		service.updateMovieDetails(movieid, movie);
+		return "Movie Details Updated";
+	}
+	
+	
+	
+//	Issues - If movie does not exist appropriate return message should show, 
+//	right now only showing success
+//	Delete owner and delete multiplex endpoints needs to be created
+	
+	@DeleteMapping("/deletemovie/{movieid}")
+	public String deleteMovie(@PathVariable Long movieid) {
+		if(service.deleteMovieFromMultiplex(movieid))
+			return "Movie Deleted";
+		else
+			return "Failed to delete";
 	}
 	
 }
