@@ -7,6 +7,8 @@ import com.entity.Movie;
 import com.entity.Multiplex;
 import com.entity.MultiplexOwner;
 import com.entity.Screening;
+import com.model.Seats;
+import com.model.TicketTypePriceRequest;
 
 public interface MultiplexService {
 	public void addMultiplexOwner(MultiplexOwner multiplexOwner);
@@ -16,6 +18,7 @@ public interface MultiplexService {
 	public List<Movie> getAllMoviesByOwnerId(Long multiplexOwnerId);
 	public Boolean updateMovieDetails(Long movieId, Movie tempMovie);
 	public Boolean deleteMovieFromMultiplex(Long movieId);
-	public Boolean setTicketTypePrice(Long multiplexId, Map<String, Integer> ticketTypePrice);
-	public Boolean bookSeats(Long screeningId,List<Integer> bookedSeats);
+	public Boolean updateTicketTypePrice(Long multiplexId, TicketTypePriceRequest ticketTypePriceRequest);
+	public Boolean bookSeats(Long screeningId,Seats seats);
+//	public Integer getTicketsSoldWeekly() 
 }

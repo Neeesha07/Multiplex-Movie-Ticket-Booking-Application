@@ -16,6 +16,8 @@ import com.entity.Movie;
 import com.entity.Multiplex;
 import com.entity.MultiplexOwner;
 import com.entity.Screening;
+import com.model.Seats;
+import com.model.TicketTypePriceRequest;
 import com.repo.MovieRepo;
 import com.repo.MultiplexOwnerRepo;
 import com.repo.MultiplexRepo;
@@ -99,15 +101,12 @@ public class MultiplexServiceImpl implements MultiplexService{
 
 	@Override
 	public Boolean updateMovieDetails(Long movieId, Movie tempMovie) {
-		try {
 			Movie movie = movieRepo.findById(movieId).get();
+			System.out.println(movie.getMovieGenre());
 		movie.setMovieName(tempMovie.getMovieName());
 		movie.setMovieGenre(tempMovie.getMovieGenre());
 		movie.setMovieRating(tempMovie.getMovieRating());
-		}catch(Exception E)
-		{
-			return false;
-		}
+		movieRepo.save(movie);
 		return true;
 	}
 
@@ -124,20 +123,22 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 	
 	@Override
-	public Boolean setTicketTypePrice(Long multiplexId, Map<String, Integer> ticketTypePrice) {
+	public Boolean updateTicketTypePrice(Long multiplexId,TicketTypePriceRequest ticketTypePriceRequest) {
 		
 		
 		Multiplex multiplex = multiplexRepo.findById(multiplexId).get();
-		multiplex.setTicketTypePrice(ticketTypePrice);
+		multiplex.setTicketTypePrice(ticketTypePriceRequest.getTicketTypePrice());
+		multiplexRepo.save(multiplex);
 		return true;
 	}
 
 	
 //	WIP, update seats
 	@Override
-	public Boolean bookSeats(Long screeningId, List<Integer> bookedSeats) {
+	public Boolean bookSeats(Long screeningId, Seats seats) {
 		Screening screening = screeningRepo.findById(screeningId).get();
-		screening.setBookedSeats(bookedSeats);
+		screening.setBookedSeats(seats.getBookedSeats());
+		screeningRepo.save(screening);
 		return true; 
 	}
 	
