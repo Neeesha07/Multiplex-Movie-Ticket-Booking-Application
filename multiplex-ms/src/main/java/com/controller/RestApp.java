@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +18,13 @@ import com.entity.Movie;
 import com.entity.Multiplex;
 import com.entity.MultiplexOwner;
 import com.entity.Screening;
+import com.model.HighestGrossingResponse;
+import com.model.PriceResponse;
 import com.model.Seats;
 import com.model.TicketTypePriceRequest;
 import com.repo.MultiplexRepo;
 import com.repo.ScreeningRepo;
+import com.service.MultiplexDao2;
 import com.service.MultiplexService;
 
 @RestController
@@ -29,6 +33,9 @@ public class RestApp {
 	
 	@Autowired
 	MultiplexService service;
+
+	@Autowired
+	MultiplexDao2 dao2;
 	
 	@PostMapping("/addowner")
 	public String addOwner(@RequestBody MultiplexOwner multiplexOwner) {
@@ -71,8 +78,6 @@ public class RestApp {
 		return "Movie Details Updated";
 	}
 	
-	
-	
 //	Issues - If movie does not exist appropriate return message should show, 
 //	right now only showing success
 //	Delete owner and delete multiplex endpoints needs to be created
@@ -102,6 +107,51 @@ public class RestApp {
 	public Integer bookSeats(@PathVariable Long ownerid) {
 		return service.getTicketsSoldDailyForAllMultiplexes(ownerid);
 		
+	}
+
+	@GetMapping("/getMovies/{multiplex_id}")
+	public List<Movie> getMoviesFromMultiplex(@PathVariable long multiplex_id) {
+		return dao2.getMovieFromMultiplex(multiplex_id);
+	}
+	
+	@GetMapping("/getMultiplex/{owner_id}")
+	public List<Multiplex> getMultiplexFromOwner(@PathVariable long owner_id) {
+		return dao2.getMultiplexFromOwner(owner_id);
+	}
+	
+	@GetMapping("/getTimeSlotForMovie/{movie_id}")
+	public List<LocalDateTime> getTimeSlotFromMovie(@PathVariable long movie_id) {
+		return dao2.getTimeSlotFromMovie(movie_id);
+	}
+	
+	@DeleteMapping("/delelteMultiplex/{multiplex_id}")
+	public void deleteMultiplex(@PathVariable long multiplex_id) {
+		dao2.deleteMultiplex(multiplex_id);
+	}
+	
+	@DeleteMapping("/delelteTimeSlot/{screening_id}")
+	public void deleteTimeSlot(@PathVariable long screening_id) {
+		dao2.deleteTimeSlot(screening_id);
+	}
+	
+	@GetMapping("/getPrice/{multiplex_id}")
+	public PriceResponse getPriceForSelectedSeat(@PathVariable long multiplex_id, @RequestBody int seatNumber) {
+		return dao2.getPriceForSelectedSeat(multiplex_id, seatNumber);
+	}
+	
+	@GetMapping("/getPrices/{multiplex_id}")
+	public List<PriceResponse> getPriceForSelectedSeat(@PathVariable long multiplex_id, @RequestBody List<Integer> seatNumbers) {
+		return dao2.getPriceForSelectedSeats(multiplex_id, seatNumbers);
+	}
+	
+	@GetMapping("/getHighestGrossing/{owner_id}")
+	public HighestGrossingResponse getHighestGrossingMovie(@PathVariable long owner_id) {
+		return dao2.getHighestGrossingMovie(owner_id);
+	}
+	
+	@GetMapping("/perScreenRevenue/{screening_id}")
+	public int calculateScreeningRevenue(@PathVariable long screening_id) {
+		return dao2.calculateScreeningRevenue(screening_id);
 	}
 	
 }
