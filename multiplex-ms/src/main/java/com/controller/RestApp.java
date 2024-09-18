@@ -1,6 +1,9 @@
 package com.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,36 +15,47 @@ import com.entity.Multiplex;
 import com.entity.MultiplexOwner;
 import com.entity.Screening;
 import com.repo.ScreeningRepo;
-import com.service.MultiplexDao;
+import com.service.MultiplexService;
 
 @RestController
 @RequestMapping("/multiplex")
 public class RestApp {
 	
 	@Autowired
-	MultiplexDao dao;
+	MultiplexService service;
 	
 	@PostMapping("/addowner")
-	public void addOwner(@RequestBody MultiplexOwner multiplexOwner) {
-		dao.addMultiplexOwner(multiplexOwner);
+	public String addOwner(@RequestBody MultiplexOwner multiplexOwner) {
+		service.addMultiplexOwner(multiplexOwner);
+		return "Owner Added";
 	}
 	
 	@PostMapping("/addmultiplex/{ownerid}")
-	public void addMultiplexToOwner(@RequestBody Multiplex multiplex, @PathVariable Long ownerid) {
+	public String addMultiplexToOwner(@RequestBody Multiplex multiplex, @PathVariable Long ownerid) {
 		
-		dao.addMultiplexToOwner(multiplex,ownerid);
+		service.addMultiplexToOwner(multiplex,ownerid);
+		return "Multiplex Added";
 	}
 	
 	@PostMapping("/addmovie/{multiplexid}")
-	public void addMovieToMultiplex(@RequestBody Movie movie, @PathVariable Long multiplexid) {
+	public String addMovieToMultiplex(@RequestBody Movie movie, @PathVariable Long multiplexid) {
 		
-		dao.addMovieToMultiplex(movie,multiplexid);
+		service.addMovieToMultiplex(movie,multiplexid);
+		return "Movie Added to multiplex";
 	}
 	
 	@PostMapping("/addscreening/{movieid}")
-	public void addScreeningToMovie(@RequestBody Screening screening, @PathVariable Long movieid) {
+	public String addScreeningToMovie(@RequestBody Screening screening, @PathVariable Long movieid) {
 		
-		dao.addScreeningToMovie(screening,movieid);
+		service.addScreeningToMovie(screening,movieid);
+		return "Screening Added to movie";
+	}
+	
+	@GetMapping("/getallmoviesbyownerid/{ownerid}")
+	public List<Movie> addScreeningToMovie(@PathVariable Long ownerid) {
+		
+		List<Movie> movieList =  service.getAllMoviesByOwnerId(ownerid);
+		return movieList;
 	}
 	
 }

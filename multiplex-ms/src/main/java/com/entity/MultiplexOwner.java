@@ -2,6 +2,9 @@ package com.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +30,7 @@ public class MultiplexOwner {
 	private String multiplexOwnerMail;
 	private String multiplexOwnerPassword;
 	
+	@JsonManagedReference()
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "multiplexOwner")
 	private List<Multiplex> multiplexList;
 	

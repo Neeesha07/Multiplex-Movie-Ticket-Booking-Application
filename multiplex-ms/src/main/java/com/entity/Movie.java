@@ -2,6 +2,9 @@ package com.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,13 +32,15 @@ public class Movie {
 	private String movieGenre;
 	private String movieRating;
 	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "multiplex_Id")
 	private Multiplex multiplex;
 	
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "movie")
 	private List<Screening> screenings;
-
+	
 	public Movie(String movieName, String movieGenre, String movieRating) {
 		super();
 		this.movieName = movieName;

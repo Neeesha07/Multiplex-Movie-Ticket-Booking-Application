@@ -8,6 +8,9 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -101,9 +104,12 @@ public class Multiplex {
 //	Mapping -
 	
 	
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "multiplex")
 	private List<Movie> movies;
 	
+	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "multiplex_Owner_Id")
 	private MultiplexOwner multiplexOwner;

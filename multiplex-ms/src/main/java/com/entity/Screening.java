@@ -3,6 +3,8 @@ package com.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -40,14 +42,20 @@ public class Screening {
 	@Column(name = "seats")
 	private List<Integer> bookedSeats;
 	
+	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "movie_id")
 	private Movie movie;
 
-	public Screening(LocalDateTime timeSlot, List<Integer> availableSeats, List<Integer> bookedSeats) {
+	public Screening(LocalDateTime timeSlot) {
 		super();
 		this.timeSlot = timeSlot;
-		this.availableSeats = availableSeats;
+	}
+
+	public Screening(LocalDateTime timeSlot, List<Integer> bookedSeats) {
+		super();
+		this.timeSlot = timeSlot;
 		this.bookedSeats = bookedSeats;
 	}
 	
