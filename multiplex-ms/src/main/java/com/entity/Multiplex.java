@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +9,10 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.exception.LocalTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -52,7 +55,8 @@ public class Multiplex {
 	@ElementCollection
 	@CollectionTable(name = "all_time_slots")
 	@Column(name = "timeslot")
-	private List<LocalDateTime> allTimeSlots;
+	@JsonDeserialize(using = LocalTimeDeserializer.class)
+	private List<LocalTime> allTimeSlots;
 	
 //	@JdbcTypeCode(SqlTypes.JSON)
 //	Map<LocalDateTime , Integer> availableScreensPerTimeslot;
@@ -116,7 +120,7 @@ public class Multiplex {
 	private MultiplexOwner multiplexOwner;
 
 	public Multiplex(String multiplexName, String multiplexLocation, int numberOfScreens,
-			List<LocalDateTime> allTimeSlots) {
+			List<LocalTime> allTimeSlots) {
 		super();
 		this.multiplexName = multiplexName;
 		this.multiplexLocation = multiplexLocation;
@@ -125,7 +129,7 @@ public class Multiplex {
 	}
 
 	public Multiplex(String multiplexName, String multiplexLocation, int numberOfScreens,
-			List<LocalDateTime> allTimeSlots, Map<LocalDateTime, Integer> availableScreensPerTimeslot,
+			List<LocalTime> allTimeSlots, Map<LocalDateTime, Integer> availableScreensPerTimeslot,
 			Map<String, BeginningEnd> seatTypeConfig, Map<String, Integer> ticketTypePrice) {
 		super();
 		this.multiplexName = multiplexName;

@@ -1,6 +1,7 @@
 package com.service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -46,6 +47,13 @@ public class MultiplexServiceImpl implements MultiplexService{
 	public void addMultiplexToOwner(Multiplex multiplex, Long multiplexOwnerId) {
 		// TODO Auto-generated method stub
 		MultiplexOwner multiplexOwner = multiplexOwnerRepo.findById(multiplexOwnerId).get();
+		List<LocalTime> timeSlots = new ArrayList<>();
+        timeSlots.add(LocalTime.parse("08:30:00"));
+        timeSlots.add(LocalTime.parse("11:00:00"));
+        timeSlots.add(LocalTime.parse("13:00:00"));
+        timeSlots.add(LocalTime.parse("18:00:00"));
+        timeSlots.add(LocalTime.parse("21:30:00"));
+		multiplex.setAllTimeSlots(timeSlots);
 		multiplex.setMultiplexOwner(multiplexOwner);
 		multiplexRepo.save(multiplex);
 		
