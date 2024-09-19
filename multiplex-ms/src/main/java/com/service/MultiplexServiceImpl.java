@@ -1,9 +1,11 @@
 package com.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,6 +56,15 @@ public class MultiplexServiceImpl implements MultiplexService{
         timeSlots.add(LocalTime.parse("18:00:00"));
         timeSlots.add(LocalTime.parse("21:30:00"));
 		multiplex.setAllTimeSlots(timeSlots);
+        
+        Map<LocalDateTime, Integer> availableScreensPerTimeslot = new HashMap<>();
+        LocalDate today = LocalDate.now();
+        for (LocalTime timeSlot : timeSlots) {
+            LocalDateTime dateTimeSlot = LocalDateTime.of(today, timeSlot);
+            availableScreensPerTimeslot.put(dateTimeSlot, 12); 
+        }
+        multiplex.setAvailableScreensPerTimeslot(availableScreensPerTimeslot);
+        
 		multiplex.setMultiplexOwner(multiplexOwner);
 		multiplexRepo.save(multiplex);
 		
