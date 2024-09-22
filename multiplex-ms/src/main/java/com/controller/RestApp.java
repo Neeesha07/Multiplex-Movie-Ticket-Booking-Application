@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -152,6 +153,17 @@ public class RestApp {
 	@GetMapping("/perScreenRevenue/{screening_id}")
 	public int calculateScreeningRevenue(@PathVariable long screening_id) {
 		return dao2.calculateScreeningRevenue(screening_id);
+	}
+
+	@PutMapping("/addtimeslot/{multiplexid}")
+	public List<LocalTime> addTimeslot(@PathVariable Long multiplexid, @RequestBody LocalTime timelsot) {
+		
+		return service.addTimeslot(multiplexid, timelsot);
+	}
+	
+	@DeleteMapping("/deletetimeslot/{multiplexid}")
+	public List<LocalTime> deleteTimeslot(@PathVariable Long multiplexid, @RequestBody LocalTime timelsot) {
+		return service.deleteTimeslot(multiplexid, timelsot);
 	}
 	
 }

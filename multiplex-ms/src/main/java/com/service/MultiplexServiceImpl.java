@@ -79,6 +79,11 @@ public class MultiplexServiceImpl implements MultiplexService{
 
 		
 	}
+	
+	
+	
+//	This requires the automatic filling of available_screens_per_timeslot to work.
+//	comparing LocalDateTime and LocalTime
 
 	@Override
 	public void addScreeningToMovie(Screening screening, Long movieId) {
@@ -86,7 +91,9 @@ public class MultiplexServiceImpl implements MultiplexService{
 		Movie movie = movieRepo.findById(movieId).get();
 		Multiplex multiplex = movie.getMultiplex();
 		Map<LocalDateTime, Integer> avail = multiplex.getAvailableScreensPerTimeslot();
+		
 		avail.put(screening.getTimeSlot(), avail.get(screening.getTimeSlot()) -1);
+		
 		multiplex.setAvailableScreensPerTimeslot(avail);
 		screening.setMovie(movie);
 		screening.setAvailableSeats(IntStream.rangeClosed(1, 64)
@@ -186,6 +193,24 @@ public class MultiplexServiceImpl implements MultiplexService{
 
 		
 		return totalTickets.size();
+	}
+
+	@Override
+	public List<LocalTime> addTimeslot(Long multiplexId, LocalTime timelsot) {
+		Multiplex multiplex =  multiplexRepo.findById(multiplexId).get();
+		List<LocalTime> timeslots = multiplex.getAllTimeSlots();
+		timeslots.add(timelsot);
+		multiplexRepo.save(multiplex);
+		return multiplexRepo.findById(multiplexId).get().getAllTimeSlots();
+	}
+
+	@Override
+	public List<LocalTime> deleteTimeslot(Long multiplexId, LocalTime timelsot) {
+		Multiplex multiplex =  multiplexRepo.findById(multiplexId).get();
+		List<LocalTime> timeslots = multiplex.getAllTimeSlots();
+		timeslots.remove(timelsot);
+		multiplexRepo.save(multiplex);
+		return multiplexRepo.findById(multiplexId).get().getAllTimeSlots();
 	}
 	
 }

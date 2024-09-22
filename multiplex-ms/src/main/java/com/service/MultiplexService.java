@@ -1,5 +1,7 @@
 package com.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -20,5 +22,7 @@ public interface MultiplexService {
 	public Boolean deleteMovieFromMultiplex(Long movieId);
 	public Boolean updateTicketTypePrice(Long multiplexId, TicketTypePriceRequest ticketTypePriceRequest);
 	public Boolean bookSeats(Long screeningId,Seats seats);
-	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid); 
+	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid);
+	public List<LocalTime> addTimeslot(Long multiplexId, LocalTime timelsot);
+	public List<LocalTime> deleteTimeslot(Long multiplexId, LocalTime timelsot);
 }
