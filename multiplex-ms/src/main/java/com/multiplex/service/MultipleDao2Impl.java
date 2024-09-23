@@ -22,7 +22,10 @@ import com.multiplex.repo.MultiplexOwnerRepo;
 import com.multiplex.repo.MultiplexRepo;
 import com.multiplex.repo.ScreeningRepo;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class MultipleDao2Impl implements MultiplexDao2{
 	
 	@Autowired
@@ -35,6 +38,7 @@ public class MultipleDao2Impl implements MultiplexDao2{
 	ScreeningRepo screeningRepo;
 
 	@Override
+	@Transactional
 	public void updateMultiplexDetails(long multiplex_id, String multiplex_name, String Multiplex_location, int noofScreens) {
 		Multiplex multiplex = multiplexRepo.findById(multiplex_id).get();
 		multiplex.setMultiplexName(multiplex_name);
@@ -65,11 +69,13 @@ public class MultipleDao2Impl implements MultiplexDao2{
 	}
 
 	@Override
+	@Transactional
 	public void deleteMultiplex(long multiplex_id) {
 		multiplexRepo.deleteById(multiplex_id);
 	}
 
 	@Override
+	@Transactional
 	public void deleteTimeSlot(long screening_id) {
 		screeningRepo.deleteById(screening_id);
 	}
@@ -153,6 +159,7 @@ public class MultipleDao2Impl implements MultiplexDao2{
     }
 
 	@Override
+	@Transactional
 	public Boolean bookSeats(Long screeningId, Seats seats) {
 		Screening screening = screeningRepo.findById(screeningId).get();
 		screening.setBookedSeats(seats.getBookedSeats());

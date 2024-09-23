@@ -26,7 +26,10 @@ import com.multiplex.repo.MultiplexOwnerRepo;
 import com.multiplex.repo.MultiplexRepo;
 import com.multiplex.repo.ScreeningRepo;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class MultiplexServiceImpl implements MultiplexService{
 	@Autowired
 	MultiplexOwnerRepo multiplexOwnerRepo;
@@ -41,11 +44,13 @@ public class MultiplexServiceImpl implements MultiplexService{
 	ScreeningRepo screeningRepo;	
 	
 	@Override
+	@Transactional
 	public void addMultiplexOwner(MultiplexOwner multiplexOwner) {
 		multiplexOwnerRepo.save(multiplexOwner);
 	}
 
 	@Override
+	@Transactional
 	public void addMultiplexToOwner(Multiplex multiplex, Long multiplexOwnerId) {
 		// TODO Auto-generated method stub
 		MultiplexOwner multiplexOwner = multiplexOwnerRepo.findById(multiplexOwnerId).get();
@@ -71,6 +76,7 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 
 	@Override
+	@Transactional
 	public void addMovieToMultiplex(Movie movie, Long multiplexId) {
 		// TODO Auto-generated method stub
 		Multiplex multiplex = multiplexRepo.findById(multiplexId).get();
@@ -86,6 +92,7 @@ public class MultiplexServiceImpl implements MultiplexService{
 //	comparing LocalDateTime and LocalTime
 
 	@Override
+	@Transactional
 	public void addScreeningToMovie(Screening screening, Long movieId) {
 		// TODO Auto-generated method stub
 		Movie movie = movieRepo.findById(movieId).get();
@@ -126,6 +133,7 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 
 	@Override
+	@Transactional
 	public Boolean updateMovieDetails(Long movieId, Movie tempMovie) {
 			Movie movie = movieRepo.findById(movieId).get();
 			System.out.println(movie.getMovieGenre());
@@ -137,6 +145,7 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 
 	@Override
+	@Transactional
 	public Boolean deleteMovieFromMultiplex(Long movieId) {
 		
 		try {
@@ -149,6 +158,7 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 	
 	@Override
+	@Transactional
 	public Boolean updateTicketTypePrice(Long multiplexId,TicketTypePriceRequest ticketTypePriceRequest) {
 		
 		
@@ -159,8 +169,8 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 
 	
-//	WIP, update seats
 	@Override
+	@Transactional
 	public Boolean bookSeats(Long screeningId, Seats seats) {
 		Screening screening = screeningRepo.findById(screeningId).get();
 		List<Integer> availableseats = screening.getAvailableSeats();
@@ -196,6 +206,7 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 
 	@Override
+	@Transactional
 	public List<LocalTime> addTimeslot(Long multiplexId, LocalTime timelsot) {
 		Multiplex multiplex =  multiplexRepo.findById(multiplexId).get();
 		List<LocalTime> timeslots = multiplex.getAllTimeSlots();
@@ -205,6 +216,7 @@ public class MultiplexServiceImpl implements MultiplexService{
 	}
 
 	@Override
+	@Transactional
 	public List<LocalTime> deleteTimeslot(Long multiplexId, LocalTime timelsot) {
 		Multiplex multiplex =  multiplexRepo.findById(multiplexId).get();
 		List<LocalTime> timeslots = multiplex.getAllTimeSlots();
