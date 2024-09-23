@@ -100,8 +100,9 @@ public class RestApp {
 	
 	@PutMapping("/bookseats/{screeningid}")
 	public String bookSeats(@PathVariable Long screeningid, @RequestBody Seats seats) {
-		service.bookSeats(screeningid, seats);
-		return "updated";
+		if(service.bookSeats(screeningid, seats))
+			return "updated";
+		return "failed";
 	}
 	
 	@GetMapping("/getticketssolddaily/{ownerid}")

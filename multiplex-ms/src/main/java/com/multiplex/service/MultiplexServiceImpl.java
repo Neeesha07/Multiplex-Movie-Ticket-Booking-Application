@@ -174,14 +174,21 @@ public class MultiplexServiceImpl implements MultiplexService{
 	public Boolean bookSeats(Long screeningId, Seats seats) {
 		Screening screening = screeningRepo.findById(screeningId).get();
 		List<Integer> availableseats = screening.getAvailableSeats();
-		List<Integer> bookedSeats = screening.getBookedSeats();
+		List<Integer> bookedSeats = seats.getBookedSeats();
+		
 		if(availableseats.containsAll(bookedSeats)) {
-			availableseats.addAll(bookedSeats);
+//			availableseats.addAll(bookedSeats);
 			availableseats.removeAll(bookedSeats);
+			screening.setAvailableSeats(availableseats);
+			List<Integer> finalBookedSeats = screening.getBookedSeats();
+			finalBookedSeats.addAll(bookedSeats);
+			screening.setBookedSeats(finalBookedSeats);
+			screeningRepo.save(screening);
+			return true; 
 		}
-		screening.setBookedSeats(seats.getBookedSeats());
-		screeningRepo.save(screening);
-		return true; 
+		
+		return false;
+		
 	}
 
 	@Override
