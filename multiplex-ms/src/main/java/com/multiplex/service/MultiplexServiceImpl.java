@@ -64,9 +64,12 @@ public class MultiplexServiceImpl implements MultiplexService{
         
         Map<LocalDateTime, Integer> availableScreensPerTimeslot = new HashMap<>();
         LocalDate today = LocalDate.now();
-        for (LocalTime timeSlot : timeSlots) {
-            LocalDateTime dateTimeSlot = LocalDateTime.of(today, timeSlot);
-            availableScreensPerTimeslot.put(dateTimeSlot, 12); 
+        for (int i = 0; i < 7; i++) {
+            LocalDate currentDate = today.plusDays(i);
+            for (LocalTime timeSlot : timeSlots) {
+                LocalDateTime dateTimeSlot = LocalDateTime.of(currentDate, timeSlot);
+                availableScreensPerTimeslot.put(dateTimeSlot, 12);
+            }
         }
         multiplex.setAvailableScreensPerTimeslot(availableScreensPerTimeslot);
         
@@ -171,10 +174,9 @@ public class MultiplexServiceImpl implements MultiplexService{
 	
 	@Override
 	@Transactional
-	public Boolean bookSeats(Long screeningId, Seats seats) {
+	public Boolean bookSeats(Long screeningId, List<Integer> bookedSeats) {
 		Screening screening = screeningRepo.findById(screeningId).get();
 		List<Integer> availableseats = screening.getAvailableSeats();
-		List<Integer> bookedSeats = seats.getBookedSeats();
 		
 		if(availableseats.containsAll(bookedSeats)) {
 //			availableseats.addAll(bookedSeats);
@@ -182,6 +184,26 @@ public class MultiplexServiceImpl implements MultiplexService{
 			screening.setAvailableSeats(availableseats);
 			List<Integer> finalBookedSeats = screening.getBookedSeats();
 			finalBookedSeats.addAll(bookedSeats);
+			screening.setBookedSeats(finalBookedSeats);
+			screeningRepo.save(screening);
+			return true; 
+		}
+		
+		return false;
+		
+	}
+
+	@Override
+	@Transactional
+	public Boolean cancelSeats(Long screeningId, List<Integer> bookedSeats) {
+		Screening screening = screeningRepo.findById(screeningId).get();
+		List<Integer> availableseats = screening.getAvailableSeats();
+	
+		if(!availableseats.containsAll(bookedSeats)) {
+			availableseats.addAll(bookedSeats);
+			screening.setAvailableSeats(availableseats);
+			List<Integer> finalBookedSeats = screening.getBookedSeats();
+			finalBookedSeats.removeAll(bookedSeats);
 			screening.setBookedSeats(finalBookedSeats);
 			screeningRepo.save(screening);
 			return true; 

@@ -37,6 +37,17 @@ public class RestApp {
 
 	@Autowired
 	MultiplexDao2 dao2;
+
+	@GetMapping("/movieName/{movie_id}")
+	public String getMovieNameFromId(@@PathVariable long movie_id){
+		service.movieNameFromId(movie_id);
+	}
+
+	
+	@GetMapping("/multiplexName/{multiplex_id}")
+	public String getMultiplexNameFromId(@@PathVariable long multiplex_id){
+		service.multiplexNameFromId(multiplex_id);
+	}
 	
 	@PostMapping("/addowner")
 	public String addOwner(@RequestBody MultiplexOwner multiplexOwner) {
@@ -99,8 +110,15 @@ public class RestApp {
 	}
 	
 	@PutMapping("/bookseats/{screeningid}")
-	public String bookSeats(@PathVariable Long screeningid, @RequestBody Seats seats) {
+	public String bookSeats(@PathVariable Long screeningid, @RequestBody List<Integer> seats) {
 		if(service.bookSeats(screeningid, seats))
+			return "updated";
+		return "failed";
+	}
+
+		@PutMapping("/cancelseats/{screeningid}")
+	public String cancelSeats(@PathVariable Long screeningid, @RequestBody List<Integer> seats) {
+		if(service.cancelSeats(screeningid, seats))
 			return "updated";
 		return "failed";
 	}
@@ -165,6 +183,21 @@ public class RestApp {
 	@DeleteMapping("/deletetimeslot/{multiplexid}")
 	public List<LocalTime> deleteTimeslot(@PathVariable Long multiplexid, @RequestBody LocalTime timelsot) {
 		return service.deleteTimeslot(multiplexid, timelsot);
+	}
+
+	@GetMapping("/deletetimeslot/{movieId}")
+	public List<Multiplex> findMultiplexByMovie(@PathVariable Long movieId){
+		return dao2.findMultiplexByMovie(movieId);
+	}
+
+	@GetMapping("/allMovies")
+	public List<String> listAllMovies(){
+		return dao2.listAllMovies();
+	}
+
+		@GetMapping("/totalMoney/{multiplex_id}")
+	public double calculateTotalMoney(@PathVariable long multiplex_id, @RequestBody List<Integer> bookedSeats) {
+		return dao2.totalMoney(multiplex_id, bookedSeats);
 	}
 	
 }

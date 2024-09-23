@@ -37,6 +37,16 @@ public class MultipleDao2Impl implements MultiplexDao2{
 	@Autowired
 	ScreeningRepo screeningRepo;
 
+		@Override
+	public String movieNameFromId(long movieId) {
+		return movieRepo.findById(movieId).get().getMovieName();
+	}
+
+	@Override
+	public String multiplexNameFromId(long multiplexId) {
+		return multiplexRepo.findById(multiplexId).get().getMultiplexName();
+	}
+
 	@Override
 	@Transactional
 	public void updateMultiplexDetails(long multiplex_id, String multiplex_name, String Multiplex_location, int noofScreens) {
@@ -157,17 +167,33 @@ public class MultipleDao2Impl implements MultiplexDao2{
         MultiplexOwner owner = ownerRepo.findById(multiplexOwnerId).get();
             return null;
     }
-
+	
 	@Override
-	@Transactional
-	public Boolean bookSeats(Long screeningId, Seats seats) {
-		Screening screening = screeningRepo.findById(screeningId).get();
-		screening.setBookedSeats(seats.getBookedSeats());
-		screeningRepo.save(screening);
-		return true; 
+	public List<Multiplex> findMultiplexByMovie(Long movieId) {
+		List<Multiplex> multiplexList = multiplexRepo.findAll();
+		return multiplexList.stream()
+	            .filter(multiplex -> multiplex.getMovies().stream()
+	                .anyMatch(movie -> movie.getMovieId()))
+	            .collect(Collectors.toList());
 	}
 
-	
+	@Override
+	public List<String> listAllMovies() {
+		 return movieRepo.findAll().stream()
+		            .map(Movie::getMovieName)  
+		            .collect(Collectors.toSet()) 
+		            .stream()                  
+		            .collect(Collectors.toList());
+	}
+
+	@Override
+	public double totalMoney(long multiplex_id, List<Integer> bookedSeats) {
+		double totalMoney=0.0;
+		for(Integer seat: bookedSeats) {
+			totalMoney += getPriceForSelectedSeat(multiplex_id, seat).getTicketAmount();
+		}
+		return totalMoney;
+	}
 
 	
 }

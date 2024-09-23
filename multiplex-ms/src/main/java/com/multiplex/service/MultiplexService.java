@@ -21,7 +21,8 @@ public interface MultiplexService {
 	public Boolean updateMovieDetails(Long movieId, Movie tempMovie);
 	public Boolean deleteMovieFromMultiplex(Long movieId);
 	public Boolean updateTicketTypePrice(Long multiplexId, TicketTypePriceRequest ticketTypePriceRequest);
-	public Boolean bookSeats(Long screeningId,Seats seats);
+	public Boolean bookSeats(Long screeningId,List<Integer> bookedSeats);
+	public Boolean cancelSeats(Long screeningId,List<Integer> bookedSeats);
 	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid);
 	public List<LocalTime> addTimeslot(Long multiplexId, LocalTime timelsot);
 	public List<LocalTime> deleteTimeslot(Long multiplexId, LocalTime timelsot);
