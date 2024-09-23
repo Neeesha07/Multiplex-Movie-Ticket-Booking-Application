@@ -1,4 +1,4 @@
-package com.service;
+package com.multiplex.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,16 +15,16 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.entity.Movie;
-import com.entity.Multiplex;
-import com.entity.MultiplexOwner;
-import com.entity.Screening;
-import com.model.Seats;
-import com.model.TicketTypePriceRequest;
-import com.repo.MovieRepo;
-import com.repo.MultiplexOwnerRepo;
-import com.repo.MultiplexRepo;
-import com.repo.ScreeningRepo;
+import com.multiplex.entity.Movie;
+import com.multiplex.entity.Multiplex;
+import com.multiplex.entity.MultiplexOwner;
+import com.multiplex.entity.Screening;
+import com.multiplex.model.Seats;
+import com.multiplex.model.TicketTypePriceRequest;
+import com.multiplex.repo.MovieRepo;
+import com.multiplex.repo.MultiplexOwnerRepo;
+import com.multiplex.repo.MultiplexRepo;
+import com.multiplex.repo.ScreeningRepo;
 
 @Service
 public class MultiplexServiceImpl implements MultiplexService{

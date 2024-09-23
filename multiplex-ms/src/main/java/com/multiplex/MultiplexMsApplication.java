@@ -1,4 +1,4 @@
-package com.example.multiplex_ms;
+package com.multiplex;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan("com")
-@EnableJpaRepositories("com")
-@EntityScan("com.entity")
+@EnableJpaRepositories("com.multiplex.repo")
+@EntityScan("com.multiplex.entity")
 public class MultiplexMsApplication {
 
 	public static void main(String[] args) {

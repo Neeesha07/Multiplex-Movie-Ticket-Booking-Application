@@ -1,4 +1,4 @@
-package com.exception;
+package com.multiplex.exception;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

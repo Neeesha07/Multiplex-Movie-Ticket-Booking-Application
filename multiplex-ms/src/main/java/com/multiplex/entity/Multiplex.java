@@ -1,4 +1,4 @@
-package com.entity;
+package com.multiplex.entity;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,10 +9,10 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.exception.LocalTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.multiplex.exception.LocalTimeDeserializer;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;

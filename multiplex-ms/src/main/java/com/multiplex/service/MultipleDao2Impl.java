@@ -1,4 +1,4 @@
-package com.service;
+package com.multiplex.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,18 +9,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.entity.BeginningEnd;
-import com.entity.Movie;
-import com.entity.Multiplex;
-import com.entity.MultiplexOwner;
-import com.entity.Screening;
-import com.model.HighestGrossingResponse;
-import com.model.PriceResponse;
-import com.model.Seats;
-import com.repo.MovieRepo;
-import com.repo.MultiplexOwnerRepo;
-import com.repo.MultiplexRepo;
-import com.repo.ScreeningRepo;
+import com.multiplex.entity.BeginningEnd;
+import com.multiplex.entity.Movie;
+import com.multiplex.entity.Multiplex;
+import com.multiplex.entity.MultiplexOwner;
+import com.multiplex.entity.Screening;
+import com.multiplex.model.HighestGrossingResponse;
+import com.multiplex.model.PriceResponse;
+import com.multiplex.model.Seats;
+import com.multiplex.repo.MovieRepo;
+import com.multiplex.repo.MultiplexOwnerRepo;
+import com.multiplex.repo.MultiplexRepo;
+import com.multiplex.repo.ScreeningRepo;
 
 @Service
 public class MultipleDao2Impl implements MultiplexDao2{

@@ -1,4 +1,4 @@
-package com.controller;
+package com.multiplex.controller;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.entity.Movie;
-import com.entity.Multiplex;
-import com.entity.MultiplexOwner;
-import com.entity.Screening;
-import com.model.HighestGrossingResponse;
-import com.model.PriceResponse;
-import com.model.Seats;
-import com.model.TicketTypePriceRequest;
-import com.repo.MultiplexRepo;
-import com.repo.ScreeningRepo;
-import com.service.MultiplexDao2;
-import com.service.MultiplexService;
+import com.multiplex.entity.Movie;
+import com.multiplex.entity.Multiplex;
+import com.multiplex.entity.MultiplexOwner;
+import com.multiplex.entity.Screening;
+import com.multiplex.model.HighestGrossingResponse;
+import com.multiplex.model.PriceResponse;
+import com.multiplex.model.Seats;
+import com.multiplex.model.TicketTypePriceRequest;
+import com.multiplex.repo.MultiplexRepo;
+import com.multiplex.repo.ScreeningRepo;
+import com.multiplex.service.MultiplexDao2;
+import com.multiplex.service.MultiplexService;
 
 @RestController
 @RequestMapping("/multiplex")

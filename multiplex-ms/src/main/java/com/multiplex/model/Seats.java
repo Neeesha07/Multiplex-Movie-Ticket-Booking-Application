@@ -1,4 +1,4 @@
-package com.model;
+package com.multiplex.model;
 
 import java.util.List;
 

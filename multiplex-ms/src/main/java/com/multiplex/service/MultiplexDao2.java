@@ -1,15 +1,15 @@
-package com.service;
+package com.multiplex.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import com.entity.Movie;
-import com.entity.Multiplex;
-import com.entity.Screening;
-import com.model.HighestGrossingResponse;
-import com.model.PriceResponse;
-import com.model.Seats;
+import com.multiplex.entity.Movie;
+import com.multiplex.entity.Multiplex;
+import com.multiplex.entity.Screening;
+import com.multiplex.model.HighestGrossingResponse;
+import com.multiplex.model.PriceResponse;
+import com.multiplex.model.Seats;
 
 public interface MultiplexDao2 {
 	public void updateMultiplexDetails(long multiplex_id, String multiplex_name, String Multiplex_location, int noofScreens);

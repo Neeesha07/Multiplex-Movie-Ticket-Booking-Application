@@ -1,16 +1,16 @@
-package com.service;
+package com.multiplex.service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
-import com.entity.Movie;
-import com.entity.Multiplex;
-import com.entity.MultiplexOwner;
-import com.entity.Screening;
-import com.model.Seats;
-import com.model.TicketTypePriceRequest;
+import com.multiplex.entity.Movie;
+import com.multiplex.entity.Multiplex;
+import com.multiplex.entity.MultiplexOwner;
+import com.multiplex.entity.Screening;
+import com.multiplex.model.Seats;
+import com.multiplex.model.TicketTypePriceRequest;
 
 public interface MultiplexService {
 	public void addMultiplexOwner(MultiplexOwner multiplexOwner);
