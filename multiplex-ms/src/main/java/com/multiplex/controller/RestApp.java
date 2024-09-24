@@ -111,14 +111,14 @@ public class RestApp {
 		return "updated";
 	}
 	
-	@PutMapping("/bookseats/{screeningid}")
+	@PostMapping("/bookseats/{screeningid}")
 	public String bookSeats(@PathVariable Long screeningid, @RequestBody List<Integer> seats) {
 		if(service.bookSeats(screeningid, seats))
 			return "updated";
 		return "failed";
 	}
 
-		@PutMapping("/cancelseats/{screeningid}")
+		@PostMapping("/cancelseats/{screeningid}")
 	public String cancelSeats(@PathVariable Long screeningid, @RequestBody List<Integer> seats) {
 		if(service.cancelSeats(screeningid, seats))
 			return "updated";
@@ -198,7 +198,7 @@ public class RestApp {
 		return dao2.listAllMovies();
 	}
 
-		@GetMapping("/totalMoney/{multiplex_id}")
+		@PostMapping("/totalMoney/{multiplex_id}")
 	public double calculateTotalMoney(@PathVariable long multiplex_id, @RequestBody List<Integer> bookedSeats) {
 		return dao2.totalMoney(multiplex_id, bookedSeats);
 	}
