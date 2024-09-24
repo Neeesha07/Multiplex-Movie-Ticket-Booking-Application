@@ -1,0 +1,75 @@
+localhost:8081/multiplex/addowner
+{
+    "multiplexOwnerName":"karthik",
+    "multiplexOwnerMail":"raj@raj.com",
+    "multiplexOwnerPassword":"123"
+}
+
+
+localhost:8081/multiplex/addmultiplex/1
+{
+    "multiplexName":"karthik",
+    "multiplexLocation":"raj@raj.com",
+    "numberOfScreens":"12",
+    "seatTypeConfig":{
+        "silver":{
+            "beginning":10,
+            "ending":20
+        }
+    },
+    "ticketTypePrice":{
+        "silver":100,
+        "gold":300,
+        "premium":500
+    }
+
+}
+
+
+localhost:8081/multiplex/addmovie/52
+
+{
+    "movieName":"Deadpool",
+    "movieRating":"R",
+    "movieGenre":"Adult"
+}
+
+localhost:8081/multiplex/addscreening/1
+{
+    "timeSlot":"2023-09-16T08:30:00"
+}
+Sure! Here’s a concise list of paths with their descriptions:
+
+1. **GET** `/multiplex/movieName/{movie_id}` - Get movie name by ID.
+2. **GET** `/multiplex/multiplexName/{multiplex_id}` - Get multiplex name by ID.
+3. **POST** `/multiplex/addowner` - Add a new multiplex owner.
+4. **POST** `/multiplex/addmultiplex/{ownerid}` - Add a multiplex to an owner.
+5. **POST** `/multiplex/addmovie/{multiplexid}` - Add a movie to a multiplex.
+6. **POST** `/multiplex/addscreening/{movieid}` - Add a screening for a movie.
+7. **GET** `/multiplex/getallmoviesbyownerid/{ownerid}` - Get all movies by owner ID.
+8. **PUT** `/multiplex/updatemoviedetails/{movieid}` - Update details of a movie.
+9. **DELETE** `/multiplex/deletemovie/{movieid}` - Delete a movie by ID.
+10. **PUT** `/multiplex/updatetickettypeprice/{multiplexid}` - Update ticket type prices for a multiplex.
+11. **PUT** `/multiplex/bookseats/{screeningid}` - Book seats for a screening.
+12. **PUT** `/multiplex/cancelseats/{screeningid}` - Cancel booked seats for a screening.
+13. **GET** `/multiplex/getticketssolddaily/{ownerid}` - Get daily tickets sold for all multiplexes by owner ID.
+14. **GET** `/multiplex/getMovies/{multiplex_id}` - Get all movies in a multiplex.
+15. **GET** `/multiplex/getMultiplex/{owner_id}` - Get all multiplexes owned by an owner.
+16. **GET** `/multiplex/getTimeSlotForMovie/{movie_id}` - Get time slots for a movie.
+17. **DELETE** `/multiplex/delelteMultiplex/{multiplex_id}` - Delete a multiplex by ID.
+18. **DELETE** `/multiplex/delelteTimeSlot/{screening_id}` - Delete a time slot by screening ID.
+19. **GET** `/multiplex/getPrice/{multiplex_id}` - Get price for a selected seat in a multiplex.
+20. **GET** `/multiplex/getPrices/{multiplex_id}` - Get prices for selected seats in a multiplex.
+21. **GET** `/multiplex/getHighestGrossing/{owner_id}` - Get the highest grossing movie for an owner.
+22. **GET** `/multiplex/perScreenRevenue/{screening_id}` - Calculate revenue for a specific screening.
+23. **PUT** `/multiplex/addtimeslot/{multiplexid}` - Add a time slot to a multiplex.
+24. **DELETE** `/multiplex/deletetimeslot/{multiplexid}` - Delete a time slot from a multiplex.
+25. **GET** `/multiplex/findMultiplex/{movieId}` - Find multiplexes showing a specific movie.
+26. **GET** `/multiplex/allMovies` - List all movies in the system.
+27. **GET** `/multiplex/totalMoney/{multiplex_id}` - Calculate total money for booked seats in a multiplex. 
+
+Let me know if you need further assistance!
+
+drop tables all_time_slots, available_screens_per_timeslot, available_seats, booked_seats, movie, movie_seq, multiplex, multiplex_owner, multiplex_owner_seq, multiplex_seq, screening,screening_seq, seat_type_config, ticket_type_price;
+
+drop tables all_time_slots, available_screens_per_timeslot, available_seats, booked_seats, movie, movie_seq, multiplex, multiplex_owner, multiplex_owner_seq, multiplex_seq, screening,screening_seq, seat_type_config, ticket_type_price;
