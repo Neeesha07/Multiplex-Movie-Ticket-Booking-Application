@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.multiplex.entity.BeginningEnd;
 import com.multiplex.entity.Movie;
 import com.multiplex.entity.Multiplex;
 import com.multiplex.entity.MultiplexOwner;
@@ -76,6 +77,13 @@ public class MultiplexServiceImpl implements MultiplexService{
             availableScreensPerTimeslot.put(dateTimeSlot, multiplex.getNumberOfScreens()); 
         }
         multiplex.setAvailableScreensPerTimeslot(availableScreensPerTimeslot);
+        
+        Map<String, BeginningEnd> seatConfig = new HashMap<>();
+        seatConfig.put("silver", new BeginningEnd(1, 40));
+        seatConfig.put("gold", new BeginningEnd(41, 56));
+        seatConfig.put("premium", new BeginningEnd(57, 64));
+        
+        multiplex.setSeatTypeConfig(seatConfig);
         
 		multiplex.setMultiplexOwner(multiplexOwner);
 		multiplexRepo.save(multiplex);
