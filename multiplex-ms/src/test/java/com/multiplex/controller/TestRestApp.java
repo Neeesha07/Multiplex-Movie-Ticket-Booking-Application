@@ -140,8 +140,8 @@ public class TestRestApp{
 	public void testGetAllMoviesByOwnerId() throws Exception 
 	{ 
 		List<Movie> movies = new ArrayList<Movie>();
-		Movie movie1 = new Movie("Drive", "Vibes", "pg16");
-		Movie movie2 = new Movie("Transformers", "Action", "pg16");
+		Movie movie1 = new Movie("Drive", "Vibes", "pg16", "abc","https://image1.com","2hr 32 mins");
+		Movie movie2 = new Movie("Transformers", "Action", "pg16", "qwp","https://image2.com","1hr 55 mins");
 		movies.add(movie1);
 		movies.add(movie2);
 		Mockito.when(service.getAllMoviesByOwnerId((long) 1)).thenReturn(movies);
@@ -235,8 +235,8 @@ public class TestRestApp{
 	@Test
 	public void testGetMoviesFromMultiplex() throws Exception {
 	    List<Movie> movies = new ArrayList<Movie>();
-		Movie movie1 = new Movie("Drive", "Vibes", "pg16");
-		Movie movie2 = new Movie("Transformers", "Action", "pg16");
+		Movie movie1 = new Movie("Drive", "Vibes", "pg16","abc","https://image1.com","2hr 32 mins");
+		Movie movie2 = new Movie("Transformers", "Action","pg16", "qwp","https://image2.com","1hr 55 mins");
 		movies.add(movie1);
 		movies.add(movie2);
 	    

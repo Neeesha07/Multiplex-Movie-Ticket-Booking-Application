@@ -31,6 +31,9 @@ public class Movie {
 	private String movieName;
 	private String movieGenre;
 	private String movieRating;
+	private String movieDescription;
+	private String moviePoster;
+	private String movieDuration;
 	
 	@JsonBackReference
 //	@ManyToOne(cascade = CascadeType.ALL)
@@ -41,13 +44,18 @@ public class Movie {
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "movie", orphanRemoval = false)
 	private List<Screening> screenings;
-	
-	public Movie(String movieName, String movieGenre, String movieRating) {
+
+	public Movie(String movieName, String movieGenre, String movieRating, String movieDescription, String moviePoster,
+			String movieDuration) {
 		super();
 		this.movieName = movieName;
 		this.movieGenre = movieGenre;
 		this.movieRating = movieRating;
+		this.movieDescription = movieDescription;
+		this.moviePoster = moviePoster;
+		this.movieDuration = movieDuration;
 	}
+	
 	
 	
 }
