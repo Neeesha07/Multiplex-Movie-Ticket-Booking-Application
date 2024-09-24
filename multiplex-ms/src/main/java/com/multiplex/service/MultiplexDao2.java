@@ -25,7 +25,7 @@ public interface MultiplexDao2 {
 	public HighestGrossingResponse getHighestGrossingMovie(long multiplex_owner_id);
 	public int calculateScreeningRevenue(long screening_id);
 	public Map<LocalDateTime, Integer> getTotalTicketsSoldPerDay(long multiplexOwnerId);
-//	public List<Multiplex> findMultiplexByMovie(String movieName);
+	public List<Multiplex> findMultiplexByMovie(Long movieId);
 	public List<String> listAllMovies();
 	public double totalMoney(long multiplex_id, List<Integer> bookedSeats);
 

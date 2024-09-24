@@ -169,14 +169,15 @@ public class MultipleDao2Impl implements MultiplexDao2{
             return null;
     }
 	
-//	@Override
-//	public List<Multiplex> findMultiplexByMovie(Long movieId) {
-//		List<Multiplex> multiplexList = multiplexRepo.findAll();
-//		return multiplexList.stream()
-//	            .filter(multiplex -> multiplex.getMovies().stream()
-//	                .anyMatch(movie ->movie.getMovieName().equalsIgnoreCase(movieId)))
-//	            .collect(Collectors.toList());
-//	}
+	@Override
+	public List<Multiplex> findMultiplexByMovie(Long movieId) {
+		List<Multiplex> multiplexList = multiplexRepo.findAll();
+		String movieName = movieRepo.findById(movieId).get().getMovieName();
+		return multiplexList.stream()
+	            .filter(multiplex -> multiplex.getMovies().stream()
+	                .anyMatch(movie ->movie.getMovieName().equalsIgnoreCase(movieName)))
+	            .collect(Collectors.toList());
+	}
 
 	@Override
 	public List<String> listAllMovies() {

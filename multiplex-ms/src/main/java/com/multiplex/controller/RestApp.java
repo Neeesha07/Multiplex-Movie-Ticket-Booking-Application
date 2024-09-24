@@ -197,6 +197,12 @@ public class RestApp {
 	public List<String> listAllMovies(){
 		return dao2.listAllMovies();
 	}
+	
+	@GetMapping("/multiplexByMovies/{movie_id}")
+	public List<Multiplex> listAllMultiplexByMovies(long movie_id){
+		return dao2.findMultiplexByMovie(movie_id);
+	}
+	
 
 		@PostMapping("/totalMoney/{multiplex_id}")
 	public double calculateTotalMoney(@PathVariable long multiplex_id, @RequestBody List<Integer> bookedSeats) {
