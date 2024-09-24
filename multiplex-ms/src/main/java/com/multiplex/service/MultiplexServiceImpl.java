@@ -64,18 +64,22 @@ public class MultiplexServiceImpl implements MultiplexService{
         
         Map<LocalDateTime, Integer> availableScreensPerTimeslot = new HashMap<>();
         LocalDate today = LocalDate.now();
+
         for (int i = 0; i < 7; i++) {
             LocalDate currentDate = today.plusDays(i);
             for (LocalTime timeSlot : timeSlots) {
                 LocalDateTime dateTimeSlot = LocalDateTime.of(currentDate, timeSlot);
                 availableScreensPerTimeslot.put(dateTimeSlot, 12);
             }
+        for (LocalTime timeSlot : timeSlots) {
+            LocalDateTime dateTimeSlot = LocalDateTime.of(today, timeSlot);
+            availableScreensPerTimeslot.put(dateTimeSlot, multiplex.getNumberOfScreens()); 
         }
         multiplex.setAvailableScreensPerTimeslot(availableScreensPerTimeslot);
         
 		multiplex.setMultiplexOwner(multiplexOwner);
 		multiplexRepo.save(multiplex);
-		
+        }
 	}
 
 	@Override
