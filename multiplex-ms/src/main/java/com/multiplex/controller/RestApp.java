@@ -23,11 +23,14 @@ import com.multiplex.entity.Screening;
 import com.multiplex.model.HighestGrossingResponse;
 import com.multiplex.model.PriceResponse;
 import com.multiplex.model.Seats;
+import com.multiplex.model.Ticket;
+import com.multiplex.model.TicketRequest;
 import com.multiplex.model.TicketTypePriceRequest;
 import com.multiplex.repo.MultiplexRepo;
 import com.multiplex.repo.ScreeningRepo;
 import com.multiplex.service.MultiplexDao2;
 import com.multiplex.service.MultiplexService;
+import com.multiplex.service.TicketBookerDaoImpl;
 
 @RestController
 @RequestMapping("/multiplex")
@@ -40,6 +43,9 @@ public class RestApp {
 	@Autowired
 	MultiplexDao2 dao2;
 
+	@Autowired
+	TicketBookerDaoImpl ticketDao;
+	
 	@GetMapping("/movieName/{movie_id}")
 	public String getMovieNameFromId(@PathVariable long movie_id){
 		return dao2.movieNameFromId(movie_id);
@@ -91,6 +97,7 @@ public class RestApp {
 		service.updateMovieDetails(movieid, movie);
 		return "Movie Details Updated";
 	}
+	
 	
 //	Issues - If movie does not exist appropriate return message should show, 
 //	right now only showing success
@@ -208,5 +215,13 @@ public class RestApp {
 	public double calculateTotalMoney(@PathVariable long multiplex_id, @RequestBody List<Integer> bookedSeats) {
 		return dao2.totalMoney(multiplex_id, bookedSeats);
 	}
+		
+	
+		//The only method with webclient
+		
+		@PostMapping("/createNewTicket/{booking_id}")
+		public Ticket createTicket(@PathVariable long booking_id, @RequestBody TicketRequest ticketRequest) {
+			return ticketDao.createTicket(booking_id, ticketRequest);
+		}
 	
 }
