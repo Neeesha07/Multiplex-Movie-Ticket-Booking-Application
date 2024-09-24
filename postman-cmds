@@ -20,8 +20,8 @@ localhost:8081/multiplex/addmultiplex/1
     },
     "seatTypeConfig":{
         "silver":{
-            "beginning":10,
-            "end":20
+            "beginning":0,
+            "ending":20
         }
     },
     "ticketTypePrice":{
