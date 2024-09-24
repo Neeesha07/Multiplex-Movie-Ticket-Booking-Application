@@ -26,4 +26,6 @@ public interface MultiplexService {
 	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid);
 	public List<LocalTime> addTimeslot(Long multiplexId, LocalTime timelsot);
 	public List<LocalTime> deleteTimeslot(Long multiplexId, LocalTime timelsot);
+	public Seats getAvailableAndBookedSeats(Long screeningId);
+	public void weeklyCleanUp();
 }

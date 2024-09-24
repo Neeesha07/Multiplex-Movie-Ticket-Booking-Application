@@ -3,9 +3,11 @@ package com.multiplex.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,6 +15,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.multiplex.entity.BeginningEnd;
@@ -66,16 +69,13 @@ public class MultiplexServiceImpl implements MultiplexService{
         Map<LocalDateTime, Integer> availableScreensPerTimeslot = new HashMap<>();
         LocalDate today = LocalDate.now();
 
-        for (int i = 0; i < 7; i++) {
-            LocalDate currentDate = today.plusDays(i);
-            for (LocalTime timeSlot : timeSlots) {
-                LocalDateTime dateTimeSlot = LocalDateTime.of(currentDate, timeSlot);
-                availableScreensPerTimeslot.put(dateTimeSlot, 12);
-            }
-        for (LocalTime timeSlot : timeSlots) {
-            LocalDateTime dateTimeSlot = LocalDateTime.of(today, timeSlot);
-            availableScreensPerTimeslot.put(dateTimeSlot, multiplex.getNumberOfScreens()); 
-        }
+        for (int i = 1; i <= 7; i++) {
+			LocalDate currentDate = today.plusDays(i);
+			for (LocalTime timeSlot : timeSlots) {
+				LocalDateTime dateTimeSlot = LocalDateTime.of(currentDate, timeSlot);
+				availableScreensPerTimeslot.put(dateTimeSlot, multiplex.getNumberOfScreens());
+			}
+		}
         multiplex.setAvailableScreensPerTimeslot(availableScreensPerTimeslot);
         
         Map<String, BeginningEnd> seatConfig = new HashMap<>();
@@ -87,8 +87,7 @@ public class MultiplexServiceImpl implements MultiplexService{
         
 		multiplex.setMultiplexOwner(multiplexOwner);
 		multiplexRepo.save(multiplex);
-        }
-	}
+}
 
 	@Override
 	@Transactional
@@ -265,5 +264,43 @@ public class MultiplexServiceImpl implements MultiplexService{
 		multiplexRepo.save(multiplex);
 		return multiplexRepo.findById(multiplexId).get().getAllTimeSlots();
 	}
+
+	@Override
+	public Seats getAvailableAndBookedSeats(Long screeningId) {
+		
+		Screening screening = screeningRepo.findById(screeningId).get();
+		Seats seats = new Seats(screening.getBookedSeats(), screening.getAvailableSeats());
+		return seats;
+	}
+
+	@Override
+	@Scheduled(cron =  "0 30 21 * * SUN")
+//	@Scheduled(cron = "0 * * * * ?") 
+	public void weeklyCleanUp() {
+		List<Multiplex> multiplexList = multiplexRepo.findAll();
+		LocalDateTime now = LocalDateTime.now();
+		screeningRepo.deleteAll();
+		LocalDate today = LocalDate.now();
+
+		for (Multiplex multiplex : multiplexList) {
+			// Step 1: Clean up available screens per timeslot
+			Map<LocalDateTime, Integer> avail = multiplex.getAvailableScreensPerTimeslot();
+			avail.clear();
+			List<LocalTime> timeSlots = multiplex.getAllTimeSlots();
+
+			for (int i = 1; i <= 7; i++) {
+				LocalDate currentDate = today.plusDays(i);
+				for (LocalTime timeSlot : timeSlots) {
+					LocalDateTime dateTimeSlot = LocalDateTime.of(currentDate, timeSlot);
+					avail.put(dateTimeSlot, multiplex.getNumberOfScreens());
+				}
+			}
+			multiplex.setAvailableScreensPerTimeslot(avail);
+
+			multiplexRepo.save(multiplex);
+		}
+	}
+	
 	
 }
+

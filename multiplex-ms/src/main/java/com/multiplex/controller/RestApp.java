@@ -43,8 +43,8 @@ public class RestApp {
 	@Autowired
 	MultiplexDao2 dao2;
 
-	@Autowired
-	TicketBookerDaoImpl ticketDao;
+//	@Autowired
+//	TicketBookerDaoImpl ticketDao;
 	
 	@GetMapping("/movieName/{movie_id}")
 	public String getMovieNameFromId(@PathVariable long movie_id){
@@ -201,7 +201,7 @@ public class RestApp {
 //	}
 
 	@GetMapping("/allMovies")
-	public List<String> listAllMovies(){
+	public List<Movie> listAllMovies(){
 		return dao2.listAllMovies();
 	}
 	
@@ -211,17 +211,22 @@ public class RestApp {
 	}
 	
 
-		@PostMapping("/totalMoney/{multiplex_id}")
+	@PostMapping("/totalMoney/{multiplex_id}")
 	public double calculateTotalMoney(@PathVariable long multiplex_id, @RequestBody List<Integer> bookedSeats) {
 		return dao2.totalMoney(multiplex_id, bookedSeats);
 	}
 		
 	
-		//The only method with webclient
-		
-		@PostMapping("/createNewTicket/{booking_id}")
-		public Ticket createTicket(@PathVariable long booking_id, @RequestBody TicketRequest ticketRequest) {
-			return ticketDao.createTicket(booking_id, ticketRequest);
-		}
+	//The only method with webclient
+	
+//	@PostMapping("/createNewTicket/{booking_id}")
+//	public Ticket createTicket(@PathVariable long booking_id, @RequestBody TicketRequest ticketRequest) {
+//		return ticketDao.createTicket(booking_id, ticketRequest);
+//	}
+	
+	@PutMapping("/weeklyCleanup")
+	public void weeklyCleanup() {
+		service.weeklyCleanUp();
+	}
 	
 }

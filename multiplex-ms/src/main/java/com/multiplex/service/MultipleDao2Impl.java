@@ -180,12 +180,8 @@ public class MultipleDao2Impl implements MultiplexDao2{
 	}
 
 	@Override
-	public List<String> listAllMovies() {
-		 return movieRepo.findAll().stream()
-		            .map(Movie::getMovieName)  
-		            .collect(Collectors.toSet()) 
-		            .stream()                  
-		            .collect(Collectors.toList());
+	public List<Movie> listAllMovies() {
+		 return movieRepo.findAll();
 	}
 
 	@Override
