@@ -16,7 +16,7 @@ public interface DiscountsDao {
 	
 	List<Discounts> getApplicableDiscounts(double totalamount);
 	
-	Double applyDiscount(Long ticketId,Long discountId,double amount);
+	Double applyDiscount(Long ticketId,Long discountId);
 
 	
 }

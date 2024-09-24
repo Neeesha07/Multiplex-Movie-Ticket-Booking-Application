@@ -19,7 +19,6 @@ import com.dao.TicketDao;
 import com.entity.Payments;
 import com.entity.Ticket;
 import com.entity.TicketBooker;
-import com.model.DiscountRequest;
 import com.entity.Discounts;
 import com.service.PaymentsDaoImpl;
 
@@ -94,9 +93,9 @@ public class RestAppController
 		return ticketservice.getTicketsByBookerId(bookerId);
 	}
 	
-	@DeleteMapping("/deleteticket/{id}")
-	public String deleteTicket(@PathVariable Long id) {
-		ticketservice.cancelTicket(id);
+	@DeleteMapping("/deleteticket/{ticketId}")
+	public String deleteTicket(@PathVariable Long ticketId) {
+		ticketservice.cancelTicket(ticketId);
 		return "ticket Canceled";
 	}
 //***************************************************************************
@@ -121,10 +120,9 @@ public class RestAppController
 	}
 	
 	@PostMapping("/applyDiscount/{ticketId}")
-	Double applyDisc(@PathVariable Long ticketId,@RequestBody DiscountRequest disc)
+	Double applyDisc(@PathVariable Long ticketId,@RequestBody Long discountId)
 	{
-		return ddi.applyDiscount(ticketId,disc.getDiscountReqId(), disc.getTotAmount());
-		 
+		return ddi.applyDiscount(ticketId,discountId); 
 	}
 //***************************************************************************
 

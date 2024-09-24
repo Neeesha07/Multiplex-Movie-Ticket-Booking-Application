@@ -13,7 +13,6 @@ import com.entity.Payments;
 import com.entity.Ticket;
 import com.entity.TicketBooker;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.model.DiscountRequest;
 import com.repository.PaymentsRepo;
 import com.repository.TicketBookerRepo;
 import com.repository.TicketRepo;
@@ -47,8 +46,15 @@ public class TicketImpl implements TicketDao{
 		if(ticketbooker!=null) {
 			ticket.setTicketBooker(ticketbooker);
 			ticket.setTicketstatus("INITIATED");
+			String calculateUrl="http://localhost:8081/multiplex/totalMoney/"+ticket.getMultiplexId();
+			ticket.setTotalAmount(builder.build()
+				.post()
+				.uri(calculateUrl)
+				.bodyValue(ticket.getConfirmedSeats())
+				.retrieve()
+				.bodyToMono(Double.class)
+				.block());
 			ticketRepo.save(ticket);
-			
 			ticketbooker.getBookedTickets().add(ticket);
 			ticketbookerrepo1.save(ticketbooker);
 		}
@@ -79,6 +85,16 @@ public class TicketImpl implements TicketDao{
 		
 	    Ticket ticket = ticketRepo.findById(ticket_id).orElse(null);
 	    if (ticket != null) {
+	    	Ticket ticketObject = ticketRepo.getById(ticket_id);
+			ObjectMapper mapper = new ObjectMapper();
+			String bookingURL="http://localhost:8081/multiplex/cancelseats/"+ticketObject.getScreeningId();
+			String status = builder.build()
+					.post()
+					.uri(bookingURL)
+					.bodyValue(ticketObject.getConfirmedSeats())
+					.retrieve()
+					.bodyToMono(String.class)
+					.block();
 	        Payments payment = paymentRepo.findByTicketId(ticket_id);
 	        
 	        if (payment != null) {
@@ -118,8 +134,18 @@ public class TicketImpl implements TicketDao{
 		
 		//NEED TO CALL MULTIPLEX HERE
 		
+		
 		// TODO Auto-generated method stub
 		Ticket ticketObject = ticketRepo.getById(ticketId);
+		ObjectMapper mapper = new ObjectMapper();
+		String bookingURL="http://localhost:8081/multiplex/bookseats/"+ticketObject.getScreeningId();
+		String status = builder.build()
+				.post()
+				.uri(bookingURL)
+				.bodyValue(ticketObject.getConfirmedSeats())
+				.retrieve()
+				.bodyToMono(String.class)
+				.block();
 	    payment.setTransactionId((long) (Math.random() * 1_000_000_0000L));
 	    payment.setPaymentStatus("TRANSACTION_SUCCESS");
 		payment.setTicket(ticketObject);

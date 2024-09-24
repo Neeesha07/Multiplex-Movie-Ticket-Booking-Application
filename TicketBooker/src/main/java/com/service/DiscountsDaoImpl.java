@@ -44,12 +44,14 @@ public class DiscountsDaoImpl implements DiscountsDao {
 
 	@Override
 	@Transactional
-	public Double applyDiscount(Long ticketId,Long discountId,double amount) {
+	public Double applyDiscount(Long ticketId,Long discountId) {
 		// TODO Auto-generated method stub
-		Discounts discount = discRepo.getById(discountId);
-		amount = (amount)-(amount*discount.getDiscountPercentage()/100);
+		
 		Optional<Ticket> optTicket = ticketRepo.findById(ticketId);
 		Ticket ticket = optTicket.get();
+		double amount=ticket.getTotalAmount();
+		Discounts discount = discRepo.getById(discountId);
+		amount = (amount)-(amount*discount.getDiscountPercentage()/100);
 		ticket.setTotalAmount(amount);
 		ticketRepo.save(ticket);
 		return amount;
@@ -64,3 +66,4 @@ public class DiscountsDaoImpl implements DiscountsDao {
 
 
 }
+

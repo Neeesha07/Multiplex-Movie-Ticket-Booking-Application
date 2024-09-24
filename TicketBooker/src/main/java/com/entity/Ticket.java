@@ -1,6 +1,7 @@
 package com.entity;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -16,18 +17,20 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Ticket {
 	@Id
 	@GeneratedValue
 	private Long ticketId;
-	private String movieName;
-	private Instant timeStamp;
-	private String multiplexName;
+	private Long movieId;
+	private LocalDateTime timeStamp;
+	private Long multiplexId;
 	private double totalAmount;
 	private String ticketstatus;
+	private Long screeningId;
 
 	@ElementCollection
-	private List<String> confirmedSeats;
+	private List<Integer> confirmedSeats;
 
 	private String seatType;
 
@@ -37,21 +40,17 @@ public class Ticket {
 	private TicketBooker ticketBooker;
 
 	
-	  public Ticket() 
-	  { 
-		 this.timeStamp=Instant.now();
-	  }
+
 	 
 
-	public Ticket(String movieName, String multiplexName, List<String> confirmedSeats, String seatType,double totalamount) {
+	public Ticket(Long movieId, long multiplexId, List<Integer> confirmedSeats,LocalDateTime timeStamp, String seatType,Long screeningId,double totalamount) {
 		super();
-		this.movieName = movieName;
-		this.multiplexName = multiplexName;
+		this.movieId = movieId;
+		this.multiplexId = multiplexId;
 		this.confirmedSeats = confirmedSeats;
-		this.seatType = seatType;
-		this.timeStamp = Instant.now();
-		this.totalAmount=totalamount;
+		this.timeStamp = timeStamp;
+		this.screeningId=screeningId;
 	}
-	
+
 
 }

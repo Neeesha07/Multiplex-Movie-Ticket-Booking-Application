@@ -17,3 +17,4 @@ public class Discounts {
 	private int discountPercentage;
 	private Double applicabilityAmountLimit;
 }
+
