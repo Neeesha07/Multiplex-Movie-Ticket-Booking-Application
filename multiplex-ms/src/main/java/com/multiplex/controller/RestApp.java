@@ -39,14 +39,14 @@ public class RestApp {
 	MultiplexDao2 dao2;
 
 	@GetMapping("/movieName/{movie_id}")
-	public String getMovieNameFromId(@@PathVariable long movie_id){
-		service.movieNameFromId(movie_id);
+	public String getMovieNameFromId(@PathVariable long movie_id){
+		return dao2.movieNameFromId(movie_id);
 	}
 
 	
 	@GetMapping("/multiplexName/{multiplex_id}")
-	public String getMultiplexNameFromId(@@PathVariable long multiplex_id){
-		service.multiplexNameFromId(multiplex_id);
+	public String getMultiplexNameFromId(@PathVariable long multiplex_id){
+		return dao2.multiplexNameFromId(multiplex_id);
 	}
 	
 	@PostMapping("/addowner")
@@ -151,7 +151,7 @@ public class RestApp {
 	
 	@DeleteMapping("/delelteTimeSlot/{screening_id}")
 	public void deleteTimeSlot(@PathVariable long screening_id) {
-		dao2.deleteTimeSlot(screening_id);
+		 dao2.deleteTimeSlot(screening_id);
 	}
 	
 	@GetMapping("/getPrice/{multiplex_id}")
@@ -185,10 +185,10 @@ public class RestApp {
 		return service.deleteTimeslot(multiplexid, timelsot);
 	}
 
-	@GetMapping("/deletetimeslot/{movieId}")
-	public List<Multiplex> findMultiplexByMovie(@PathVariable Long movieId){
-		return dao2.findMultiplexByMovie(movieId);
-	}
+//	@GetMapping("/deletetimeslot/{movieId}")
+//	public List<Multiplex> findMultiplexByMovie(@PathVariable Long movieId){
+//		return dao2.findMultiplexByMovie(movieId);
+//	}
 
 	@GetMapping("/allMovies")
 	public List<String> listAllMovies(){

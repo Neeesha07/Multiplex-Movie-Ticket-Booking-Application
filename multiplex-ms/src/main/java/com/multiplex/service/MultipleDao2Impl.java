@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -168,14 +169,14 @@ public class MultipleDao2Impl implements MultiplexDao2{
             return null;
     }
 	
-	@Override
-	public List<Multiplex> findMultiplexByMovie(Long movieId) {
-		List<Multiplex> multiplexList = multiplexRepo.findAll();
-		return multiplexList.stream()
-	            .filter(multiplex -> multiplex.getMovies().stream()
-	                .anyMatch(movie -> movie.getMovieId()))
-	            .collect(Collectors.toList());
-	}
+//	@Override
+//	public List<Multiplex> findMultiplexByMovie(Long movieId) {
+//		List<Multiplex> multiplexList = multiplexRepo.findAll();
+//		return multiplexList.stream()
+//	            .filter(multiplex -> multiplex.getMovies().stream()
+//	                .anyMatch(movie ->movie.getMovieName().equalsIgnoreCase(movieId)))
+//	            .collect(Collectors.toList());
+//	}
 
 	@Override
 	public List<String> listAllMovies() {
@@ -194,6 +195,8 @@ public class MultipleDao2Impl implements MultiplexDao2{
 		}
 		return totalMoney;
 	}
+
+	
 
 	
 }
