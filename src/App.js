@@ -1,24 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import Dashboard from './components/Dashboard';
+import {BrowserRouter as   Router, Routes , Route } from 'react-router-dom';
+import MovieDetails from './components/MovieDetails';
+import SeatBooking from './components/SeatBooking';
+import Navbar from './components/Navbar';
+import DiscountList from './components/DiscountList';
 
 function App() {
   return (
+    <Router>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <Routes>
+          <Route path="/" element={<Dashboard/>} />
+          <Route path="/movie/:id" element={<MovieDetails/>} />
+          <Route path="/discounts" element={<DiscountList />} />
+          <Route path="/seats" element={<SeatBooking/>} />
+          
+        </Routes>
     </div>
+    </Router>
   );
 }
 
