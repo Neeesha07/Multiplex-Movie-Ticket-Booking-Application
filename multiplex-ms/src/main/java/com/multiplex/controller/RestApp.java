@@ -231,6 +231,13 @@ public class RestApp {
 		return ticketDao.createTicket(booking_id, ticketRequest);
 	}
 	
+	
+	@GetMapping("/getAllMultiplexes")
+	public List<Multiplex> getAllMultiplexes(){
+		return service.getAllMultiplexes();
+	}
+	
+	
 	@PutMapping("/weeklyCleanup")
 	public void weeklyCleanup() {
 		service.weeklyCleanUp();

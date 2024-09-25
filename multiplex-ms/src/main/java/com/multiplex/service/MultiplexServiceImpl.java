@@ -319,6 +319,11 @@ public class MultiplexServiceImpl implements MultiplexService{
 	    return seatTypes;
 	}
 
+	@Override
+	public List<Multiplex> getAllMultiplexes() {
+		return multiplexRepo.findAll();
+	}
+
 	
 }
 

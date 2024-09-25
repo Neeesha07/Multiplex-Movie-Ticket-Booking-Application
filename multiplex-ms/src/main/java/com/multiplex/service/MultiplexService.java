@@ -17,16 +17,21 @@ public interface MultiplexService {
 	public void addMultiplexToOwner(Multiplex multiplex, Long multiplexOwnerId);
 	public void addMovieToMultiplex(Movie movie, Long multiplexId);
 	public void addScreeningToMovie(Screening screening, Long movieId);
-	public List<Movie> getAllMoviesByOwnerId(Long multiplexOwnerId);
-	public Boolean updateMovieDetails(Long movieId, Movie tempMovie);
-	public Boolean deleteMovieFromMultiplex(Long movieId);
-	public Boolean updateTicketTypePrice(Long multiplexId, TicketTypePriceRequest ticketTypePriceRequest);
-	public Boolean bookSeats(Long screeningId,List<Integer> bookedSeats);
-	public Boolean cancelSeats(Long screeningId,List<Integer> bookedSeats);
-	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid);
 	public List<LocalTime> addTimeslot(Long multiplexId, LocalTime timelsot);
-	public List<LocalTime> deleteTimeslot(Long multiplexId, LocalTime timelsot);
+	
+	public List<Movie> getAllMoviesByOwnerId(Long multiplexOwnerId);
+	public Integer getTicketsSoldDailyForAllMultiplexes(Long ownerid);
 	public Seats getAvailableAndBookedSeats(Long screeningId);
 	public List<String> getSeatTypesForSeats(List<Integer> seats, Long multiplexId);
+	public List<Multiplex> getAllMultiplexes();
+	
+	
+	public Boolean updateMovieDetails(Long movieId, Movie tempMovie);
+	public Boolean updateTicketTypePrice(Long multiplexId, TicketTypePriceRequest ticketTypePriceRequest);
+	public Boolean bookSeats(Long screeningId,List<Integer> bookedSeats);
+	public Boolean deleteMovieFromMultiplex(Long movieId);
+	public Boolean cancelSeats(Long screeningId,List<Integer> bookedSeats);
+	public List<LocalTime> deleteTimeslot(Long multiplexId, LocalTime timelsot);
+	
 	public void weeklyCleanUp();
 }
