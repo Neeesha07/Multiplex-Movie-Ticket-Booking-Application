@@ -26,9 +26,10 @@ public class MultiplexOwner {
 	@Id
 	@GeneratedValue
 	private Long multiplexOwnerId;
+	private Long foreignUserId;
 	private String multiplexOwnerName;
 	private String multiplexOwnerMail;
-	private String multiplexOwnerPassword;
+//	private String multiplexOwnerPassword;
 	
 	@JsonManagedReference()
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "multiplexOwner", orphanRemoval = false)
