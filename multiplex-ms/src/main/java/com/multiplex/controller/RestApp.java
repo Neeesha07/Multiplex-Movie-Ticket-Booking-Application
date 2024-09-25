@@ -45,7 +45,7 @@ public class RestApp {
 	MultiplexDao2 dao2;
 
 	@Autowired
-	TicketBookerDao ticketDao;
+	private TicketBookerDao ticketDao;
 	
 	@GetMapping("/movieName/{movie_id}")
 	public String getMovieNameFromId(@PathVariable long movie_id){

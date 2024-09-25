@@ -18,8 +18,8 @@ import com.multiplex.repo.ScreeningRepo;
 
 import jakarta.transaction.Transactional;
 
-//@Service
-//@Transactional
+@Service
+@Transactional
 public class TicketBookerDaoImpl implements TicketBookerDao{
 	
 	@Autowired
@@ -49,7 +49,7 @@ public class TicketBookerDaoImpl implements TicketBookerDao{
 		ticket.setMultiplexId(multiplex_id);
 		ticket.setTotalAmount(dao2.totalMoney(multiplex_id, ticketRequest.getBooked_seats()));
 		
-		String url = "http://localhost:8081/TickerBooker/createticket/"+booker_id;
+		String url = "http://localhost:8082/ticketBooker/createticket/"+booker_id;
 		Ticket new_ticket = builder.build()
 		.post()
 		.uri(url)
