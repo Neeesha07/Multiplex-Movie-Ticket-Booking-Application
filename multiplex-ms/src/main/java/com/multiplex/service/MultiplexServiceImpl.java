@@ -300,7 +300,25 @@ public class MultiplexServiceImpl implements MultiplexService{
 			multiplexRepo.save(multiplex);
 		}
 	}
-	
+
+	@Override
+	public List<String> getSeatTypesForSeats(List<Integer> seats, Long multiplexId) {
+		Multiplex multiplex = multiplexRepo.findById(multiplexId).get();
+		Map<String, BeginningEnd> seatTypeConfig =  multiplex.getSeatTypeConfig();
+		List<String> seatTypes = new ArrayList<>();
+
+	    for (Integer seat : seats) {
+	        String seatType = seatTypeConfig.entrySet().stream()
+	            .filter(entry -> seat >= entry.getValue().getBeginning() && seat <= entry.getValue().getEnding())
+	            .map(Map.Entry::getKey)
+	            .findFirst()
+	            .orElse("Unknown"); // Return "Unknown" if the seat doesn't match any type
+	        seatTypes.add(seatType);
+	    }
+
+	    return seatTypes;
+	}
+
 	
 }
 

@@ -11,11 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ticket {
-	private Long movieId;
+//	private Long movieId;
+//	private Long multiplexId;
+	private String movieName;
+	private String multiplexName;
 	private LocalDateTime timeStamp;
-	private Long multiplexId;
 	private double totalAmount;
 	private Long screeningId;
 	private List<Integer> confirmedSeats;
+	private List<String> seatTypes;
 
 }

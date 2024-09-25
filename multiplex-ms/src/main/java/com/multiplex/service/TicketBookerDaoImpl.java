@@ -35,19 +35,27 @@ public class TicketBookerDaoImpl implements TicketBookerDao{
 	@Qualifier("webclient")
 	private WebClient.Builder builder;
 	
-	MultipleDao2Impl dao2 = new MultipleDao2Impl();
+	@Autowired
+	MultiplexDao2 dao2;
+	
+	@Autowired
+	MultiplexService service;
 	
 	@Override
-	public Ticket createTicket(long booker_id, TicketRequest ticketRequest) {
+	public Ticket createTicket(Long booker_id, TicketRequest ticketRequest) {
 		Ticket ticket = new Ticket();
 		Screening screening = screeningRepo.findById(ticketRequest.getScreening_id()).get();
-		long multiplex_id = screening.getMovie().getMultiplex().getMultiplexId();
-		ticket.setScreeningId(ticketRequest.getScreening_id());
-		ticket.setConfirmedSeats(ticketRequest.getBooked_seats());
+		String multiplexName = screening.getMovie().getMultiplex().getMultiplexName();
+		Long multiplexId = screening.getMovie().getMultiplex().getMultiplexId();
+		
+		ticket.setMovieName(screening.getMovie().getMovieName());
+		ticket.setMultiplexName(multiplexName);
 		ticket.setTimeStamp(screening.getTimeSlot());
-		ticket.setMovieId(screening.getMovie().getMovieId());
-		ticket.setMultiplexId(multiplex_id);
-		ticket.setTotalAmount(dao2.totalMoney(multiplex_id, ticketRequest.getBooked_seats()));
+		ticket.setScreeningId(ticketRequest.getScreening_id());
+		ticket.setTotalAmount(dao2.totalMoney(multiplexId, ticketRequest.getBooked_seats()));
+		ticket.setConfirmedSeats(ticketRequest.getBooked_seats());
+		ticket.setSeatTypes(service.getSeatTypesForSeats(ticketRequest.getBooked_seats(),multiplexId));
+		
 		
 		String url = "http://localhost:8082/ticketBooker/createticket/"+booker_id;
 		Ticket new_ticket = builder.build()
@@ -59,7 +67,6 @@ public class TicketBookerDaoImpl implements TicketBookerDao{
 		.block();
 		
 		return new_ticket;
-		
 //		return ticket;
 	}
 

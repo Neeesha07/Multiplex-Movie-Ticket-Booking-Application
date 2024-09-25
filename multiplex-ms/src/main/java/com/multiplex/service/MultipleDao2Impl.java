@@ -92,7 +92,7 @@ public class MultipleDao2Impl implements MultiplexDao2{
 	}
 	
 	@Override
-	public PriceResponse getPriceForSelectedSeat(long multiplex_id, int seatNumber) {
+	public PriceResponse getPriceForSelectedSeat(Long multiplex_id, int seatNumber) {
 		Multiplex multiplex = multiplexRepo.findById(multiplex_id).get();
 		Map<String, BeginningEnd> seatTypeConfig = multiplex.getSeatTypeConfig();
 		String seatType = getSeatTypeForSeat(seatNumber, seatTypeConfig);
@@ -116,7 +116,7 @@ public class MultipleDao2Impl implements MultiplexDao2{
 		return priceList;
 	}
 	
-	private String getSeatTypeForSeat(int seat, Map<String, BeginningEnd> seatTypeConfig) {
+	public String getSeatTypeForSeat(int seat, Map<String, BeginningEnd> seatTypeConfig) {
 	    // Iterate through seat types and their configurations
 	    for (Map.Entry<String, BeginningEnd> entry : seatTypeConfig.entrySet()) {
 	        BeginningEnd range = entry.getValue();
@@ -170,6 +170,16 @@ public class MultipleDao2Impl implements MultiplexDao2{
     }
 	
 	@Override
+	public List<Multiplex> findMultiplexesByMovieName(String movieName) {
+	    List<Multiplex> multiplexList = multiplexRepo.findAll();
+	    return multiplexList.stream()
+	        .filter(multiplex -> multiplex.getMovies().stream()
+	            .anyMatch(movie -> movie.getMovieName().equalsIgnoreCase(movieName))) // Assuming movie names are the same
+	        .collect(Collectors.toList());
+	}
+	
+	
+	@Override
 	public List<Multiplex> findMultiplexByMovie(Long movieId) {
 		List<Multiplex> multiplexList = multiplexRepo.findAll();
 		String movieName = movieRepo.findById(movieId).get().getMovieName();
@@ -178,14 +188,15 @@ public class MultipleDao2Impl implements MultiplexDao2{
 	                .anyMatch(movie ->movie.getMovieName().equalsIgnoreCase(movieName)))
 	            .collect(Collectors.toList());
 	}
-
+	
+	
 	@Override
 	public List<Movie> listAllMovies() {
 		 return movieRepo.findAll();
 	}
 
 	@Override
-	public double totalMoney(long multiplex_id, List<Integer> bookedSeats) {
+	public double totalMoney(Long multiplex_id, List<Integer> bookedSeats) {
 		double totalMoney=0.0;
 		for(Integer seat: bookedSeats) {
 			totalMoney += getPriceForSelectedSeat(multiplex_id, seat).getTicketAmount();

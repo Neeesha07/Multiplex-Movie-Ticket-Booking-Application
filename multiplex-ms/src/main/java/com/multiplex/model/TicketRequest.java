@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class TicketRequest {
 	long screening_id;
 	List<Integer> booked_seats;
-
+	
 }

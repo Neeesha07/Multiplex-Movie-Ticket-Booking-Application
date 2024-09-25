@@ -10,6 +10,6 @@ import com.multiplex.model.TicketRequest;
 
 //@Repository
 public interface TicketBookerDao {
-	public Ticket createTicket(long booker_id, TicketRequest ticketrequest);
+	public Ticket createTicket(Long booker_id, TicketRequest ticketrequest);
 
 }

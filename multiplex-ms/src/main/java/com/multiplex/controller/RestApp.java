@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.multiplex.entity.Movie;
@@ -207,8 +208,13 @@ public class RestApp {
 	}
 	
 	@GetMapping("/multiplexByMovies/{movie_id}")
-	public List<Multiplex> listAllMultiplexByMovies(long movie_id){
+	public List<Multiplex> listAllMultiplexByMovie(@PathVariable Long movie_id){
 		return dao2.findMultiplexByMovie(movie_id);
+	}
+	
+	@GetMapping("/allMultiplexesByMovieName/{movieName}")
+	public List<Multiplex> listAllMultiplexByMovieName(@PathVariable String movieName){
+		return dao2.findMultiplexesByMovieName(movieName);
 	}
 	
 
