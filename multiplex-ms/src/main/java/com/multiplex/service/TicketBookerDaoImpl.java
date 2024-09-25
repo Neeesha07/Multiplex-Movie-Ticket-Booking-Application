@@ -53,6 +53,7 @@ public class TicketBookerDaoImpl implements TicketBookerDao{
 		ticket.setTimeStamp(screening.getTimeSlot());
 		ticket.setScreeningId(ticketRequest.getScreening_id());
 		ticket.setTotalAmount(dao2.totalMoney(multiplexId, ticketRequest.getBooked_seats()));
+		ticket.setDiscountedAmount(ticket.getTotalAmount());
 		ticket.setConfirmedSeats(ticketRequest.getBooked_seats());
 		ticket.setSeatTypes(service.getSeatTypesForSeats(ticketRequest.getBooked_seats(),multiplexId));
 		

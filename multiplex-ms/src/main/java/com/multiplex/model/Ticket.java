@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 public class Ticket {
 //	private Long movieId;
 //	private Long multiplexId;
+	private double discountedAmount;
+	private Long ticketId;
+	private String ticketstatus;
 	private String movieName;
 	private String multiplexName;
 	private LocalDateTime timeStamp;
