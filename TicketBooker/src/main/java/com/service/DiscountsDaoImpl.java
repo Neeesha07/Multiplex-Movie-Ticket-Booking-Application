@@ -52,7 +52,7 @@ public class DiscountsDaoImpl implements DiscountsDao {
 		double amount=ticket.getTotalAmount();
 		Discounts discount = discRepo.getById(discountId);
 		amount = (amount)-(amount*discount.getDiscountPercentage()/100);
-		ticket.setTotalAmount(amount);
+		ticket.setDiscountedAmount(amount);
 		ticketRepo.save(ticket);
 		return amount;
 	}

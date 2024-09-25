@@ -3,6 +3,7 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +20,13 @@ import com.dao.TicketDao;
 import com.entity.Payments;
 import com.entity.Ticket;
 import com.entity.TicketBooker;
+import com.model.DiscountRequest;
 import com.entity.Discounts;
 import com.service.PaymentsDaoImpl;
 
 @RestController
-@RequestMapping("/TicketBooker")
+@CrossOrigin(origins = "http://localhost:3000") 
+@RequestMapping("/ticketBooker")
 public class RestAppController 
 {
 	
@@ -78,9 +81,8 @@ public class RestAppController
 //****************************************************************************
     				//TICKET  ENDPOINTS//
 	@PostMapping("/createticket/{bookerId}")
-	public String CreateTicket(@PathVariable Long bookerId,@RequestBody Ticket ticket) {
-		ticketservice.AddTicket(bookerId, ticket);
-		return "Ticket created";
+	public Ticket createTicket(@PathVariable Long bookerId,@RequestBody Ticket ticket) {
+		return ticketservice.addTicket(bookerId, ticket);
 	}
 	
 	@GetMapping("/getticket/{id}")
@@ -118,11 +120,11 @@ public class RestAppController
 		
 		return ddi.getApplicableDiscounts(totalamount);
 	}
-	
+
 	@PostMapping("/applyDiscount/{ticketId}")
-	Double applyDisc(@PathVariable Long ticketId,@RequestBody Long discountId)
+	Double applyDisc(@PathVariable Long ticketId,@RequestBody DiscountRequest discountId)
 	{
-		return ddi.applyDiscount(ticketId,discountId); 
+		return ddi.applyDiscount(ticketId,discountId.getDiscountId()); 
 	}
 //***************************************************************************
 
@@ -139,13 +141,12 @@ public class RestAppController
 	@GetMapping("/getPaymentDetails/{ticketId}")
 	Payments paylist(@PathVariable Long ticketId)
 	{
-		
 		return pdi.getPaymentsbyTicket_id(ticketId);
 	}
-	@PostMapping("/confirmPayment/{id}")
-	String confirmPaymentMethod(@PathVariable Long id,@RequestBody Payments payment)
+	@PostMapping("/confirmPayment/{ticketId}")
+	String confirmPaymentMethod(@PathVariable Long ticketId,@RequestBody Payments payment)
 	{
-		ticketservice.confirmTicket(id, payment);
+		ticketservice.confirmTicket(ticketId, payment);
 		return "BOOKING CONFIRMED";
 	}
 

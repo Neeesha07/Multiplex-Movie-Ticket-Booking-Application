@@ -22,17 +22,19 @@ public class Ticket {
 	@Id
 	@GeneratedValue
 	private Long ticketId;
-	private Long movieId;
+	private String movieName;
 	private LocalDateTime timeStamp;
-	private Long multiplexId;
+	private String multiplexName;
 	private double totalAmount;
+	private double discountedAmount;
 	private String ticketstatus;
 	private Long screeningId;
+	private Long foreignUserId;
 
 	@ElementCollection
 	private List<Integer> confirmedSeats;
-
-	private String seatType;
+	@ElementCollection
+	private List<String> seatTypes;
 
 	@JsonBackReference
 	@ManyToOne
@@ -43,13 +45,14 @@ public class Ticket {
 
 	 
 
-	public Ticket(Long movieId, long multiplexId, List<Integer> confirmedSeats,LocalDateTime timeStamp, String seatType,Long screeningId,double totalamount) {
+	public Ticket(String movieName, String multiplexName,List<String> seatTypes, List<Integer> confirmedSeats,LocalDateTime timeStamp, String seatType,Long screeningId,double totalamount) {
 		super();
-		this.movieId = movieId;
-		this.multiplexId = multiplexId;
+		this.movieName = movieName;
+		this.multiplexName = multiplexName;
 		this.confirmedSeats = confirmedSeats;
 		this.timeStamp = timeStamp;
 		this.screeningId=screeningId;
+		this.seatTypes=seatTypes;
 	}
 
 

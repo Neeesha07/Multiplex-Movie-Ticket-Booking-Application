@@ -40,25 +40,26 @@ public class TicketImpl implements TicketDao{
 
 	@Override
 	@Transactional
-	public void AddTicket(Long bookerId,Ticket ticket) {
+	public Ticket addTicket(Long bookerId,Ticket ticket) {
 		// TODO Auto-generated method stub
 		TicketBooker ticketbooker=ticketbookerrepo1.getById(bookerId);
 		if(ticketbooker!=null) {
 			ticket.setTicketBooker(ticketbooker);
 			ticket.setTicketstatus("INITIATED");
-			String calculateUrl="http://localhost:8081/multiplex/totalMoney/"+ticket.getMultiplexId();
-			ticket.setTotalAmount(builder.build()
-				.post()
-				.uri(calculateUrl)
-				.bodyValue(ticket.getConfirmedSeats())
-				.retrieve()
-				.bodyToMono(Double.class)
-				.block());
+			ticket.setDiscountedAmount(ticket.getTotalAmount());
+//			String calculateUrl="http://localhost:8081/multiplex/totalMoney/"+ticket.getMultiplexId();
+//			ticket.setTotalAmount(builder.build()
+//				.post()
+//				.uri(calculateUrl)
+//				.bodyValue(ticket.getConfirmedSeats())
+//				.retrieve()
+//				.bodyToMono(Double.class)
+//				.block());
 			ticketRepo.save(ticket);
 			ticketbooker.getBookedTickets().add(ticket);
 			ticketbookerrepo1.save(ticketbooker);
 		}
-		
+		return ticket;
 	}
 
 	
