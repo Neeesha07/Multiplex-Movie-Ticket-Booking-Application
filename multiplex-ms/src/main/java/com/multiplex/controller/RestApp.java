@@ -30,6 +30,7 @@ import com.multiplex.repo.MultiplexRepo;
 import com.multiplex.repo.ScreeningRepo;
 import com.multiplex.service.MultiplexDao2;
 import com.multiplex.service.MultiplexService;
+import com.multiplex.service.TicketBookerDao;
 import com.multiplex.service.TicketBookerDaoImpl;
 
 @RestController
@@ -43,8 +44,8 @@ public class RestApp {
 	@Autowired
 	MultiplexDao2 dao2;
 
-//	@Autowired
-//	TicketBookerDaoImpl ticketDao;
+	@Autowired
+	TicketBookerDao ticketDao;
 	
 	@GetMapping("/movieName/{movie_id}")
 	public String getMovieNameFromId(@PathVariable long movie_id){
@@ -219,10 +220,10 @@ public class RestApp {
 	
 	//The only method with webclient
 	
-//	@PostMapping("/createNewTicket/{booking_id}")
-//	public Ticket createTicket(@PathVariable long booking_id, @RequestBody TicketRequest ticketRequest) {
-//		return ticketDao.createTicket(booking_id, ticketRequest);
-//	}
+	@PostMapping("/createNewTicket/{booking_id}")
+	public Ticket createTicket(@PathVariable long booking_id, @RequestBody TicketRequest ticketRequest) {
+		return ticketDao.createTicket(booking_id, ticketRequest);
+	}
 	
 	@PutMapping("/weeklyCleanup")
 	public void weeklyCleanup() {
