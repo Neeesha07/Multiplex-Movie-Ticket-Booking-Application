@@ -1,0 +1,13 @@
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 1); /* Optional: Semi-transparent background */
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+  
