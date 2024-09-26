@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +11,38 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.background-image {
+  background-image: url('https://wallpaperaccess.com/full/4839516.jpg'); /* Replace with your image path */
+  background-size: cover; /* Cover the entire jumbotron */
+  background-position: center; /* Center the image */
+  opacity: 0.8; /* Set desired opacity for the entire jumbotron */
+  position: relative; /* Ensure the text stays above the background */
+}
+
+.jumbotron .container {
+  position: relative; /* Ensure text is above the background */
+  z-index: 1; /* Bring text above the background */
+}
+
+/* Optional: Prevent any child elements from inheriting the opacity */
+.jumbotron * {
+  position: relative;
+  z-index: 2; /* Keep child elements above the jumbotron */
+}
+
+.text-box {
+  background-color: rgba(255, 255, 255, 0.1); /* White with 70% opacity */
+  width:fit-content;
+  border-radius: 50px; /* Rounded edges */
+  backdrop-filter: blur(10px); /* Optional: add a blur effect to the background */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+.modal-content {
+  border-radius: 10px;
+}
+.modal-body {
+  background-color: white;
 }
