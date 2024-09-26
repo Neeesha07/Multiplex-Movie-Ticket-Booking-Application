@@ -1,0 +1,3 @@
+spring.config.import=configserver:http://localhost:8012
+management.endpoints.web.exposure.include=*
+management.security.enabled=false
