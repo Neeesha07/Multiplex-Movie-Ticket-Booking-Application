@@ -1,0 +1,131 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles for Register Page */
+.register-page {
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column; /* Vertical stacking */
+  background-color: #f5f5f5;
+  padding: 1rem 0; /* Top and bottom padding */
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  width: 100%; /* Full width */
+  text-align: center; /* Centered text */
+  padding: 1rem 0; /* Padding for vertical spacing */
+  position: fixed; /* Fixes the navbar at the top */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+/* App name and slogan styles */
+.app-name {
+  font-size: 2rem;
+  margin: 0; /* Remove default margin */
+}
+
+.slogan {
+  font-size: 1rem;
+  margin: 0; /* Remove default margin */
+}
+
+/* Registration card styles */
+.register-card {
+  background-color: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto; /* Center the card horizontally */
+  margin-top: 100px; /* Space for the fixed navbar */
+  margin-bottom: 50px; /* Space above the footer */
+  /* Add some padding around the card */
+  padding: 2rem 1rem; /* Horizontal padding for the card */
+}
+
+/* Centering the card in the remaining space */
+.register-page > .register-card {
+  flex-grow: 1; /* Allow the card to take up available space */
+}
+
+.register-card h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Button styles for toggling forms */
+.register-card button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  margin: 0 0.5rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.register-card button:hover {
+  transform: scale(1.05);
+}
+
+.register-card button.active {
+  background-color: #555;
+  border: none;
+}
+
+/* Form styles */
+.register-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-card input {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
+  width: 100%;
+}
+
+.register-card button[type="submit"] {
+  background-color: #000;
+  color: #fff;
+  padding: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.register-card button[type="submit"]:hover {
+  transform: scale(1.05);
+}
+
+/* Footer styles */
+.footer {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  width: 100%; /* Full width */
+  text-align: center; /* Centered text */
+  padding: 1rem 0; /* Padding for vertical spacing */
+  position: relative; /* Ensure footer appears below content */
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 768px) {
+  .register-card {
+    padding: 3rem;
+  }
+}
