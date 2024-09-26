@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
+import { Button, Modal, Form, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import { PlusCircle } from 'lucide-react';
 
 const AddMultiplexForm = ({ ownerId }) => {
     const [show, setShow] = useState(false);
@@ -13,22 +14,16 @@ const AddMultiplexForm = ({ ownerId }) => {
         diamond: ''
     });
     const [isFormValid, setIsFormValid] = useState(false);
+    const [error, setError] = useState('');
 
-    // Open/Close Modal
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    // Validate Form Logic
     const validateForm = () => {
         const { multiplexName, multiplexLocation, numberOfScreens, silver, gold, diamond } = formData;
-        if (multiplexName && multiplexLocation && numberOfScreens && silver && gold && diamond) {
-            setIsFormValid(true);
-        } else {
-            setIsFormValid(false);
-        }
+        setIsFormValid(!!(multiplexName && multiplexLocation && numberOfScreens && silver && gold && diamond));
     };
 
-    // Handle input change
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -37,7 +32,6 @@ const AddMultiplexForm = ({ ownerId }) => {
         validateForm();
     };
 
-    // Handle form submission
     const handleSubmit = async () => {
         const multiplexData = {
             multiplexName: formData.multiplexName,
@@ -51,11 +45,11 @@ const AddMultiplexForm = ({ ownerId }) => {
         };
 
         try {
-            await axios.post(`http://win10-2-200:8888/multiplex-ms/addmultiplex/1`, multiplexData);
-            alert('Multiplex added successfully!');
-            handleClose(); // Close modal after submission
+            // await axios.post(`http://win10-2-200:8888/multiplex-ms/addmultiplex/1`, multiplexData);
+            handleClose();
+            // You might want to add a success message or refresh the multiplex list here
         } catch (error) {
-            alert('Error adding multiplex!');
+            setError('Error adding multiplex. Please try again.');
             console.error(error);
         }
     };
@@ -64,104 +58,118 @@ const AddMultiplexForm = ({ ownerId }) => {
         <>
             <Button
                 variant="dark"
-                className="mb-3"
-                style={{ width: '200px', height: '60px', border: 'none' }}
+                className="d-flex align-items-center justify-content-center shadow-sm"
+                style={{ width: '100%', height: '60px', borderRadius: '10px' }}
                 onClick={handleShow}
             >
+                <PlusCircle className="me-2" />
                 Add Multiplex
             </Button>
 
-            <Modal show={show} onHide={handleClose} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Multiplex</Modal.Title>
+            <Modal show={show} onHide={handleClose} centered size="lg" className="bg-dark text-light">
+                <Modal.Header closeButton className="bg-dark text-white">
+                    <Modal.Title>Add New Multiplex</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="bg-dark text-light">
+                    {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
-                        <Form.Group className="mb-3" controlId="multiplexName">
-                            <Form.Label>Multiplex Name</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="multiplexName" 
-                                value={formData.multiplexName} 
-                                onChange={handleChange} 
-                                placeholder="Enter multiplex name" 
-                            />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="multiplexLocation">
-                            <Form.Label>Multiplex Location</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="multiplexLocation" 
-                                value={formData.multiplexLocation} 
-                                onChange={handleChange} 
-                                placeholder="Enter multiplex location" 
-                            />
-                        </Form.Group>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3" controlId="multiplexName">
+                                    <Form.Label className="text-light">Multiplex Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="multiplexName"
+                                        value={formData.multiplexName}
+                                        onChange={handleChange}
+                                        placeholder="Enter multiplex name"
+                                        className="shadow-sm bg-dark text-light"
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group className="mb-3" controlId="multiplexLocation">
+                                    <Form.Label className="text-light">Multiplex Location</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="multiplexLocation"
+                                        value={formData.multiplexLocation}
+                                        onChange={handleChange}
+                                        placeholder="Enter multiplex location"
+                                        className="shadow-sm bg-dark text-light"
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
 
                         <Form.Group className="mb-3" controlId="numberOfScreens">
-                            <Form.Label>Number of Screens</Form.Label>
-                            <Form.Control 
-                                type="number" 
-                                name="numberOfScreens" 
-                                value={formData.numberOfScreens} 
-                                onChange={handleChange} 
-                                placeholder="Enter number of screens" 
+                            <Form.Label className="text-light">Number of Screens</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="numberOfScreens"
+                                value={formData.numberOfScreens}
+                                onChange={handleChange}
+                                placeholder="Enter number of screens"
+                                className="shadow-sm bg-dark text-light"
                             />
                         </Form.Group>
 
-                        <h5 className="text-center">Ticket Type Price</h5>
+                        <h5 className="text-center mb-3 text-light">Ticket Type Prices</h5>
 
                         <Row>
-                            <Col>
+                            <Col md={4}>
                                 <Form.Group className="mb-3" controlId="silver">
-                                    <Form.Label>Silver</Form.Label>
-                                    <Form.Control 
-                                        type="number" 
-                                        name="silver" 
-                                        value={formData.silver} 
-                                        onChange={handleChange} 
-                                        placeholder="Silver price" 
+                                    <Form.Label className="text-light">Silver</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="silver"
+                                        value={formData.silver}
+                                        onChange={handleChange}
+                                        placeholder="Silver price"
+                                        className="shadow-sm bg-dark text-light"
                                     />
                                 </Form.Group>
                             </Col>
-                            <Col>
+                            <Col md={4}>
                                 <Form.Group className="mb-3" controlId="gold">
-                                    <Form.Label>Gold</Form.Label>
-                                    <Form.Control 
-                                        type="number" 
-                                        name="gold" 
-                                        value={formData.gold} 
-                                        onChange={handleChange} 
-                                        placeholder="Gold price" 
+                                    <Form.Label className="text-light">Gold</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="gold"
+                                        value={formData.gold}
+                                        onChange={handleChange}
+                                        placeholder="Gold price"
+                                        className="shadow-sm bg-dark text-light"
                                     />
                                 </Form.Group>
                             </Col>
-                            <Col>
+                            <Col md={4}>
                                 <Form.Group className="mb-3" controlId="diamond">
-                                    <Form.Label>Diamond</Form.Label>
-                                    <Form.Control 
-                                        type="number" 
-                                        name="diamond" 
-                                        value={formData.diamond} 
-                                        onChange={handleChange} 
-                                        placeholder="Diamond price" 
+                                    <Form.Label className="text-light">Diamond</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="diamond"
+                                        value={formData.diamond}
+                                        onChange={handleChange}
+                                        placeholder="Diamond price"
+                                        className="shadow-sm bg-dark text-light"
                                     />
                                 </Form.Group>
                             </Col>
                         </Row>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="bg-dark">
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Cancel
                     </Button>
-                    <Button 
-                        variant="primary" 
-                        onClick={handleSubmit} 
+                    <Button
+                        variant="primary"
+                        onClick={handleSubmit}
                         disabled={!isFormValid}
+                        className="shadow-sm"
                     >
-                        Submit
+                        Add Multiplex
                     </Button>
                 </Modal.Footer>
             </Modal>

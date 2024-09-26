@@ -1,31 +1,34 @@
 import React from 'react';
-import Navbar from './Navbar';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Make sure CSS imports are at the top
+import Navbar from './Navbar'; // Then import components
 import OwnerInfo from './OwnerInfo';
 import Stats from './Stats';
 import ActionButtons from './ActionButtons';
 import Welcome from './Welcome';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Make sure Bootstrap CSS is imported
-import AddScreening from './AddScreening';
+import './Dashboard.css'; // Custom styles at the end
+
 
 const Dashboard = () => {
     const ownerId = 12345;
 
     return (
-        <div className="container-fluid">
-            <Welcome />
+        <div className="dashboard">
             <Navbar />
-            <div className="row">
-                <div className="col-md-8 col-lg-9">
-                    <Stats />
+            <div className="container-fluid mt-3">
+                <Welcome />
+                <div className="row mt-4">
+                    <div className="col-md-8">
+                        <Stats />
+                    </div>
+                    <div className="col-md-4">
+                        <OwnerInfo ownerId={ownerId} />
+                    </div>
                 </div>
-                <div className="col-md-4 col-lg-3">
-                    <OwnerInfo ownerId={ownerId} />
+                <div className="mt-4">
+                    <ActionButtons ownerId={ownerId} />
                 </div>
             </div>
-            <div className="mt-4 d-flex justify-content-end">
-                <ActionButtons />
-            </div>
-
+            
         </div>
     );
 };

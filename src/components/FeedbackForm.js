@@ -1,56 +1,40 @@
-// AddFeedback.js
 import React, { useState } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import { MessageSquarePlus } from 'lucide-react';
 
 const AddFeedback = () => {
-    const [show, setShow] = useState(false); // Modal visibility
-    const [feedbackTitle, setFeedbackTitle] = useState(''); // Feedback title
-    const [feedbackBody, setFeedbackBody] = useState(''); // Feedback description
-    const [isFormValid, setIsFormValid] = useState(false); // Form validation
+    const [show, setShow] = useState(false);
+    const [feedbackTitle, setFeedbackTitle] = useState('');
+    const [feedbackBody, setFeedbackBody] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleClose = () => setShow(false); // Close modal
-    const handleShow = () => setShow(true); // Open modal
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
-    // Validate the form when title and description are filled
     const validateForm = () => {
-        if (feedbackTitle && feedbackBody.length > 0 && feedbackBody.length <= 300) {
-            setIsFormValid(true);
-        } else {
-            setIsFormValid(false);
-        }
+        setIsFormValid(feedbackTitle && feedbackBody.length > 0 && feedbackBody.length <= 300);
     };
 
-    // Handle title input change
     const handleTitleChange = (e) => {
         setFeedbackTitle(e.target.value);
         validateForm();
     };
 
-    // Handle description input change and validate form
     const handleBodyChange = (e) => {
         setFeedbackBody(e.target.value);
         validateForm();
     };
 
-    // Handle form submission
     const handleSubmit = async () => {
-        const feedbackData = {
-            feedbackTitle,
-            feedbackBody
-        };
-
         try {
-            // Construct the URL with query parameters
-            const url = `http://win10-2-200:8888/multiplex-ms/addfeedback?feedbackTitle=${encodeURIComponent(feedbackData.feedbackTitle)}&feedbackBody=${encodeURIComponent(feedbackData.feedbackBody)}`;
-            
-            // Send a POST request with query parameters
+            const url = `http://win10-2-200:8888/multiplex-ms/addfeedback?feedbackTitle=${encodeURIComponent(feedbackTitle)}&feedbackBody=${encodeURIComponent(feedbackBody)}`;
             await axios.post(url);
-            
-            alert('Feedback submitted successfully!');
-            handleClose(); // Close modal after submission
+            handleClose();
+            // You might want to add a success message or refresh the feedback list here
         } catch (error) {
-            alert('Error submitting feedback!');
+            setError('Error submitting feedback. Please try again.');
             console.error(error);
         }
     };
@@ -59,34 +43,34 @@ const AddFeedback = () => {
         <>
             <Button
                 variant="dark"
-                className="mb-3"
-                style={{ width: '200px', height: '60px', border: 'none' }}
+                className="d-flex align-items-center justify-content-center shadow-sm"
+                style={{ width: '100%', height: '60px', borderRadius: '10px' }}
                 onClick={handleShow}
             >
+                <MessageSquarePlus className="me-2" />
                 Add Feedback
             </Button>
 
-            {/* Modal for Add Feedback */}
-            <Modal show={show} onHide={handleClose} centered>
-                <Modal.Header closeButton>
+            <Modal show={show} onHide={handleClose} centered className="bg-dark text-light">
+                <Modal.Header closeButton className="bg-dark text-white">
                     <Modal.Title>Add Feedback</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="bg-dark text-light">
+                    {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
-                        {/* Feedback Title */}
                         <Form.Group className="mb-3" controlId="feedbackTitle">
-                            <Form.Label>Feedback Title</Form.Label>
+                            <Form.Label className="text-light">Feedback Title</Form.Label>
                             <Form.Control 
                                 type="text" 
                                 placeholder="Enter feedback title" 
                                 value={feedbackTitle} 
                                 onChange={handleTitleChange} 
+                                className="shadow-sm bg-dark text-light"
                             />
                         </Form.Group>
 
-                        {/* Feedback Description */}
                         <Form.Group className="mb-3" controlId="feedbackBody">
-                            <Form.Label>Feedback Description</Form.Label>
+                            <Form.Label className="text-light">Feedback Description</Form.Label>
                             <Form.Control 
                                 as="textarea" 
                                 rows={3} 
@@ -94,24 +78,26 @@ const AddFeedback = () => {
                                 placeholder="Enter feedback (max 300 characters)" 
                                 value={feedbackBody} 
                                 onChange={handleBodyChange} 
+                                className="shadow-sm bg-dark text-light"
                             />
-                            {/* Character Counter */}
-                            <div className="text-muted">
-                                {feedbackBody.length}/300
-                            </div>
+                            <Form.Text className="text-muted d-flex justify-content-between">
+                                <span>Max 300 characters</span>
+                                <span>{feedbackBody.length}/300</span>
+                            </Form.Text>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="bg-dark">
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Cancel
                     </Button>
                     <Button 
-                        variant="primary" 
+                        variant="dark" 
                         onClick={handleSubmit} 
-                        disabled={!isFormValid} // Enable when form is valid
+                        disabled={!isFormValid}
+                        className="shadow-sm"
                     >
-                        Submit
+                        Submit Feedback
                     </Button>
                 </Modal.Footer>
             </Modal>

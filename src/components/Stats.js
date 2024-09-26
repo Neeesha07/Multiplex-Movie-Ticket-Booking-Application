@@ -39,7 +39,7 @@ const Stats = () => {
 
     return (
         <Container fluid className="p-3">
-            <Row className="justify-content-start">
+            <Row className="justify-content-center align-items-centemin-vh-100">
                 <Col xs={12} sm={10} md={8} lg={6}>
                     <Card className="text-bg-light shadow-sm">
                         <Card.Body>

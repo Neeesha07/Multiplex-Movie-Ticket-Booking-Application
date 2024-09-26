@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
-import axios from 'axios'; // Axios to fetch multiplex data and handle form submission
+import { Button, Modal, Form, Alert } from 'react-bootstrap';
+import axios from 'axios';
+import { PlusCircle } from 'lucide-react';
 
 const AddMovieForm = ({ ownerId }) => {
-    const [show, setShow] = useState(false); // Modal visibility
-    const [multiplexes, setMultiplexes] = useState([]); // Multiplex list
-    const [selectedMultiplex, setSelectedMultiplex] = useState(''); // Selected multiplex ID
+    const [show, setShow] = useState(false);
+    const [multiplexes, setMultiplexes] = useState([]);
+    const [selectedMultiplex, setSelectedMultiplex] = useState('');
     const [formData, setFormData] = useState({
         movieName: '',
         movieDuration: '',
@@ -15,31 +16,29 @@ const AddMovieForm = ({ ownerId }) => {
         moviePoster: ''
     });
     const [isFormValid, setIsFormValid] = useState(false);
+    const [error, setError] = useState('');
 
-    // Open/Close Modal
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    // Fetch multiplex data when the modal is shown
     useEffect(() => {
         if (show) {
-            axios.get(`http://localhost:8081/multiplex/getMultiplex/1`)
+            axios.get("http://localhost:8081/multiplex/getMultiplex/1")
                 .then((response) => {
-                    setMultiplexes(response.data); // Assume response.data is an array of multiplexes
+                    setMultiplexes(response.data);
                 })
                 .catch((error) => {
                     console.error('Error fetching multiplexes:', error);
+                    setError('Failed to load multiplexes. Please try again.');
                 });
         }
     }, [show, ownerId]);
 
-    // Validate form fields
     const validateForm = () => {
         const { movieName, movieDuration, movieRating, movieDescription, movieGenre, moviePoster } = formData;
         setIsFormValid(!!(selectedMultiplex && movieName && movieDuration && movieRating && movieDescription && movieGenre && moviePoster));
     };
 
-    // Handle input changes
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -48,20 +47,17 @@ const AddMovieForm = ({ ownerId }) => {
         validateForm();
     };
 
-    // Handle multiplex selection
     const handleMultiplexChange = (e) => {
         setSelectedMultiplex(e.target.value);
-        validateForm(); // Re-validate when multiplex changes
+        validateForm();
     };
 
-    // Handle form submission
     const handleSubmit = async () => {
         if (!selectedMultiplex) {
-            alert('Please select a multiplex');
+            setError('Please select a multiplex');
             return;
         }
 
-        // Prepare the movie data to be sent to the backend
         const movieData = {
             movieName: formData.movieName,
             movieRating: formData.movieRating,
@@ -72,12 +68,11 @@ const AddMovieForm = ({ ownerId }) => {
         };
 
         try {
-            // Send a POST request to the backend with the selected multiplexId
             await axios.post(`http://localhost:8081/multiplex/addmovie/${selectedMultiplex}`, movieData);
-            alert('Movie added successfully!');
-            handleClose(); // Close modal after submission
+            handleClose();
+            // You might want to add a success message or refresh the movie list here
         } catch (error) {
-            alert('Error adding movie!');
+            setError('Error adding movie. Please try again.');
             console.error(error);
         }
     };
@@ -85,27 +80,28 @@ const AddMovieForm = ({ ownerId }) => {
     return (
         <>
             <Button
-                variant="dark"
-                className="mb-3"
-                style={{ width: '200px', height: '60px', border: 'none' }}
+                variant="dark" // Changed to dark
+                className="d-flex align-items-center justify-content-center shadow-sm"
+                style={{ width: '100%', height: '60px', borderRadius: '10px' }}
                 onClick={handleShow}
             >
+                <PlusCircle className="me-2" />
                 Add Movie
             </Button>
 
-            {/* Modal for Add Movie */}
-            <Modal show={show} onHide={handleClose} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Movie</Modal.Title>
+            <Modal show={show} onHide={handleClose} centered size="lg" className="bg-dark text-light"> {/* Added bg-dark and text-light classes */}
+                <Modal.Header closeButton className="bg-dark text-white"> {/* Changed to bg-dark */}
+                    <Modal.Title>Add New Movie</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="bg-dark text-light"> {/* Changed to bg-dark and text-light */}
+                    {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
-                        {/* Multiplex Dropdown */}
                         <Form.Group className="mb-3" controlId="multiplexDropdown">
                             <Form.Label>Choose Multiplex</Form.Label>
                             <Form.Select
                                 value={selectedMultiplex}
                                 onChange={handleMultiplexChange}
+                                className="shadow-sm bg-dark text-light" // Changed to bg-dark and text-light
                             >
                                 <option value="">Select Multiplex</option>
                                 {multiplexes.length > 0 ? (
@@ -120,59 +116,74 @@ const AddMovieForm = ({ ownerId }) => {
                             </Form.Select>
                         </Form.Group>
 
-                        {/* Movie Fields */}
-                        <Form.Group className="mb-3" controlId="movieName">
-                            <Form.Label>Movie Name</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="movieName" 
-                                value={formData.movieName} 
-                                onChange={handleChange} 
-                                placeholder="Enter movie name" 
-                            />
-                        </Form.Group>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3" controlId="movieName">
+                                    <Form.Label>Movie Name</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        name="movieName" 
+                                        value={formData.movieName} 
+                                        onChange={handleChange} 
+                                        placeholder="Enter movie name" 
+                                        className="shadow-sm bg-dark text-light" // Changed to bg-dark and text-light
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3" controlId="movieDuration">
+                                    <Form.Label>Movie Duration</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        name="movieDuration" 
+                                        value={formData.movieDuration} 
+                                        onChange={handleChange} 
+                                        placeholder="Enter movie duration" 
+                                        className="shadow-sm bg-dark text-light" // Changed to bg-dark and text-light
+                                    />
+                                </Form.Group>
+                            </div>
+                        </div>
 
-                        <Form.Group className="mb-3" controlId="movieDuration">
-                            <Form.Label>Movie Duration</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="movieDuration" 
-                                value={formData.movieDuration} 
-                                onChange={handleChange} 
-                                placeholder="Enter movie duration" 
-                            />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="movieRating">
-                            <Form.Label>Movie Rating</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="movieRating" 
-                                value={formData.movieRating} 
-                                onChange={handleChange} 
-                                placeholder="Enter movie rating (e.g., U, A)" 
-                            />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="movieGenre">
-                            <Form.Label>Movie Genre</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="movieGenre" 
-                                value={formData.movieGenre} 
-                                onChange={handleChange} 
-                                placeholder="Enter movie genre" 
-                            />
-                        </Form.Group>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3" controlId="movieRating">
+                                    <Form.Label>Movie Rating</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        name="movieRating" 
+                                        value={formData.movieRating} 
+                                        onChange={handleChange} 
+                                        placeholder="Enter movie rating (e.g., U, A)" 
+                                        className="shadow-sm bg-dark text-light" // Changed to bg-dark and text-light
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3" controlId="movieGenre">
+                                    <Form.Label>Movie Genre</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        name="movieGenre" 
+                                        value={formData.movieGenre} 
+                                        onChange={handleChange} 
+                                        placeholder="Enter movie genre" 
+                                        className="shadow-sm bg-dark text-light" // Changed to bg-dark and text-light
+                                    />
+                                </Form.Group>
+                            </div>
+                        </div>
 
                         <Form.Group className="mb-3" controlId="movieDescription">
                             <Form.Label>Movie Description</Form.Label>
                             <Form.Control 
-                                type="text" 
+                                as="textarea" 
+                                rows={3}
                                 name="movieDescription" 
                                 value={formData.movieDescription} 
                                 onChange={handleChange} 
                                 placeholder="Enter movie description" 
+                                className="shadow-sm bg-dark text-light" // Changed to bg-dark and text-light
                             />
                         </Form.Group>
 
@@ -184,20 +195,22 @@ const AddMovieForm = ({ ownerId }) => {
                                 value={formData.moviePoster} 
                                 onChange={handleChange} 
                                 placeholder="Enter movie poster URL" 
+                                className="shadow-sm bg-dark text-light" // Changed to bg-dark and text-light
                             />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="bg-dark"> {/* Changed to bg-dark */}
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Cancel
                     </Button>
                     <Button 
                         variant="primary" 
                         onClick={handleSubmit} 
-                        disabled={!isFormValid} // Disable until form is valid
+                        disabled={!isFormValid}
+                        className="shadow-sm"
                     >
-                        Submit
+                        Add Movie
                     </Button>
                 </Modal.Footer>
             </Modal>

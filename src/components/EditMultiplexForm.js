@@ -1,56 +1,81 @@
-// EditMultiplexForm.js
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { Edit3, Film, Trash2 } from 'lucide-react';
+import DeleteMovieForm from './DeleteMovieForm';
 
 const EditMultiplexForm = () => {
-    const [show, setShow] = useState(false); // Modal visibility
+    const [show, setShow] = useState(false);
+    const [showDeleteMovie, setShowDeleteMovie] = useState(false);
 
-    const handleClose = () => setShow(false); // Close modal
-    const handleShow = () => setShow(true); // Open modal
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleEditMultiplexDetails = () => {
-        // Logic to edit multiplex details
         alert("Edit Multiplex Details clicked!");
+        // Implement the logic to edit multiplex details here
     };
 
     const handleEditMovie = () => {
-        // Logic to edit movie
         alert("Edit Movie clicked!");
+        // Implement the logic to edit movie here
     };
 
     const handleDeleteMovie = () => {
-        // Logic to delete movie
-        alert("Delete Movie clicked!");
+        setShowDeleteMovie(true);
     };
 
     return (
         <>
             <Button
                 variant="dark"
-                className="mb-3"
-                style={{ width: '200px', height: '60px', border: 'none' }}
+                className="d-flex align-items-center justify-content-center shadow-sm"
+                style={{ width: '100%', height: '60px', borderRadius: '10px' }}
                 onClick={handleShow}
             >
+                <Edit3 className="me-2" />
                 Edit Multiplex
             </Button>
 
-            {/* Modal for Edit Multiplex */}
             <Modal show={show} onHide={handleClose} centered>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton className="bg-dark text-white">
                     <Modal.Title>Edit Multiplex</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Button variant="primary" onClick={handleEditMultiplexDetails} className="w-100 mb-2">
-                        Edit Multiplex Details
-                    </Button>
-                    <Button variant="primary" onClick={handleEditMovie} className="w-100 mb-2">
-                        Edit Movie
-                    </Button>
-                    <Button variant="danger" onClick={handleDeleteMovie} className="w-100">
-                        Delete Movie
-                    </Button>
+                <Modal.Body className="bg-light">
+                    <div className="d-grid gap-3">
+                        <Button 
+                            variant="dark" 
+                            onClick={handleEditMultiplexDetails}
+                            className="d-flex align-items-center justify-content-center py-3 shadow-sm"
+                        >
+                            <Edit3 className="me-2" />
+                            Edit Multiplex Details
+                        </Button>
+                        <Button 
+                            variant="dark" 
+                            onClick={handleEditMovie}
+                            className="d-flex align-items-center justify-content-center py-3 shadow-sm"
+                        >
+                            <Film className="me-2" />
+                            Edit Movie
+                        </Button>
+                        <Button 
+                            variant="danger" 
+                            onClick={handleDeleteMovie}
+                            className="d-flex align-items-center justify-content-center py-3 shadow-sm"
+                        >
+                            <Trash2 className="me-2" />
+                            Delete Movie
+                        </Button>
+                    </div>
                 </Modal.Body>
             </Modal>
+
+            {showDeleteMovie && (
+                <DeleteMovieForm 
+                    show={showDeleteMovie} 
+                    handleClose={() => setShowDeleteMovie(false)} 
+                />
+            )}
         </>
     );
 };

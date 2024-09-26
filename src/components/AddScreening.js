@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
+import { PlusCircle, Film, Calendar, Clock } from 'lucide-react';
 
 const AddScreeningForm = ({ ownerId }) => {
     const [show, setShow] = useState(false);
@@ -12,71 +13,100 @@ const AddScreeningForm = ({ ownerId }) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [availableTimes, setAvailableTimes] = useState([]);
     const [selectedTime, setSelectedTime] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    // Open/Close Modal
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        resetForm();
+    };
     const handleShow = () => setShow(true);
 
-    // Fetch multiplexes when modal is opened
+    const resetForm = () => {
+        setSelectedMultiplex('');
+        setSelectedMovie('');
+        setSelectedDate('');
+        setSelectedTime('');
+        setError('');
+    };
+
     useEffect(() => {
         if (show) {
+            setLoading(true);
             axios.get(`http://localhost:8081/multiplex/getMultiplex/1`)
-                .then((response) => setMultiplexes(response.data))
-                .catch((error) => console.error('Error fetching multiplexes:', error));
+                .then((response) => {
+                    setMultiplexes(response.data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching multiplexes:', error);
+                    setError('Failed to load multiplexes. Please try again.');
+                    setLoading(false);
+                });
         }
     }, [show, ownerId]);
 
-    // Fetch movies for selected multiplex
     useEffect(() => {
         if (selectedMultiplex) {
+            setLoading(true);
             axios.get(`http://localhost:8081/multiplex/getMovies/${selectedMultiplex}`)
-                .then((response) => setMovies(response.data))
-                .catch((error) => console.error('Error fetching movies:', error));
+                .then((response) => {
+                    setMovies(response.data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching movies:', error);
+                    setError('Failed to load movies. Please try again.');
+                    setLoading(false);
+                });
         }
     }, [selectedMultiplex]);
 
-    // Handle multiplex selection and extract available dates
     const handleMultiplexChange = (e) => {
         const multiplexId = e.target.value;
         setSelectedMultiplex(multiplexId);
+        setSelectedMovie('');
+        setSelectedDate('');
+        setSelectedTime('');
         const multiplex = multiplexes.find(m => m.multiplexId === Number(multiplexId));
         
-        // Extract dates from availableScreensPerTimeslot
         if (multiplex) {
             const dateKeys = Object.keys(multiplex.availableScreensPerTimeslot);
             const uniqueDates = [...new Set(dateKeys.map(dateTime => dateTime.split('T')[0]))];
-            setAvailableDates(uniqueDates); // Dates only (no times)
+            setAvailableDates(uniqueDates);
         }
     };
 
-    // Handle date selection and filter available times
     const handleDateChange = (e) => {
         const date = e.target.value;
         setSelectedDate(date);
+        setSelectedTime('');
 
-        // Filter time slots for the selected date
         const multiplex = multiplexes.find(m => m.multiplexId === Number(selectedMultiplex));
         if (multiplex) {
             const filteredTimes = Object.keys(multiplex.availableScreensPerTimeslot)
                 .filter(dateTime => dateTime.startsWith(date))
-                .map(dateTime => dateTime.split('T')[1]); // Extract time part
-            setAvailableTimes(filteredTimes); // Set available time slots
+                .map(dateTime => dateTime.split('T')[1]);
+            setAvailableTimes(filteredTimes);
         }
     };
 
-    // Handle form submission (POST request)
     const handleSubmit = async () => {
+        setLoading(true);
+        setError('');
         const timeSlot = `${selectedDate}T${selectedTime}`;
 
         try {
             await axios.post(`http://localhost:8081/multiplex/addscreening/${selectedMovie}`, {
                 timeSlot
             });
-            alert('Screening added successfully!');
-            handleClose(); // Close modal after submission
+            handleClose();
+            // Optionally add success notification or refresh here
         } catch (error) {
-            alert('Error adding screening!');
-            console.error(error);
+            console.error('Error adding screening:', error);
+            setError('Failed to add screening. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -84,23 +114,29 @@ const AddScreeningForm = ({ ownerId }) => {
         <>
             <Button
                 variant="dark"
-                className="mb-3"
-                style={{ width: '200px', height: '60px', border: 'none' }}
+                className="d-flex align-items-center justify-content-center shadow-sm"
+                style={{ width: '100%', height: '60px', borderRadius: '10px' }}
                 onClick={handleShow}
             >
+                <PlusCircle className="me-2" />
                 Add Screening
             </Button>
 
             <Modal show={show} onHide={handleClose} centered>
-                <Modal.Header closeButton>
+                <Modal.Header closeButton className="bg-dark text-white">
                     <Modal.Title>Add Screening</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="bg-light">
+                    {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
-                        {/* Multiplex Dropdown */}
                         <Form.Group className="mb-3" controlId="multiplexDropdown">
-                            <Form.Label>Choose Multiplex</Form.Label>
-                            <Form.Select value={selectedMultiplex} onChange={handleMultiplexChange}>
+                            <Form.Label><Film className="me-2" />Choose Multiplex</Form.Label>
+                            <Form.Select 
+                                value={selectedMultiplex} 
+                                onChange={handleMultiplexChange}
+                                disabled={loading}
+                                className="shadow-sm"
+                            >
                                 <option value="">Select Multiplex</option>
                                 {multiplexes.map((multiplex) => (
                                     <option key={multiplex.multiplexId} value={multiplex.multiplexId}>
@@ -110,10 +146,14 @@ const AddScreeningForm = ({ ownerId }) => {
                             </Form.Select>
                         </Form.Group>
 
-                        {/* Movie Dropdown */}
                         <Form.Group className="mb-3" controlId="movieDropdown">
-                            <Form.Label>Choose Movie</Form.Label>
-                            <Form.Select value={selectedMovie} onChange={(e) => setSelectedMovie(e.target.value)}>
+                            <Form.Label><Film className="me-2" />Choose Movie</Form.Label>
+                            <Form.Select 
+                                value={selectedMovie} 
+                                onChange={(e) => setSelectedMovie(e.target.value)}
+                                disabled={!selectedMultiplex || loading}
+                                className="shadow-sm"
+                            >
                                 <option value="">Select Movie</option>
                                 {movies.map((movie) => (
                                     <option key={movie.movieId} value={movie.movieId}>
@@ -123,10 +163,14 @@ const AddScreeningForm = ({ ownerId }) => {
                             </Form.Select>
                         </Form.Group>
 
-                        {/* Date Dropdown */}
                         <Form.Group className="mb-3" controlId="dateDropdown">
-                            <Form.Label>Select Date</Form.Label>
-                            <Form.Select value={selectedDate} onChange={handleDateChange}>
+                            <Form.Label><Calendar className="me-2" />Select Date</Form.Label>
+                            <Form.Select 
+                                value={selectedDate} 
+                                onChange={handleDateChange}
+                                disabled={!selectedMovie || loading}
+                                className="shadow-sm"
+                            >
                                 <option value="">Select Date</option>
                                 {availableDates.map((date) => (
                                     <option key={date} value={date}>
@@ -136,10 +180,14 @@ const AddScreeningForm = ({ ownerId }) => {
                             </Form.Select>
                         </Form.Group>
 
-                        {/* Time Dropdown */}
                         <Form.Group className="mb-3" controlId="timeDropdown">
-                            <Form.Label>Select Time</Form.Label>
-                            <Form.Select value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
+                            <Form.Label><Clock className="me-2" />Select Time</Form.Label>
+                            <Form.Select 
+                                value={selectedTime} 
+                                onChange={(e) => setSelectedTime(e.target.value)}
+                                disabled={!selectedDate || loading}
+                                className="shadow-sm"
+                            >
                                 <option value="">Select Time</option>
                                 {availableTimes.map((time) => (
                                     <option key={time} value={time}>
@@ -150,16 +198,17 @@ const AddScreeningForm = ({ ownerId }) => {
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
+                <Modal.Footer className="bg-light">
+                    <Button variant="secondary" onClick={handleClose} disabled={loading}>
+                        Cancel
                     </Button>
                     <Button 
-                        variant="primary" 
+                        variant="dark" 
                         onClick={handleSubmit} 
-                        disabled={!selectedMovie || !selectedDate || !selectedTime}
+                        disabled={!selectedMovie || !selectedDate || !selectedTime || loading}
+                        className="shadow-sm"
                     >
-                        Submit
+                        {loading ? <><Spinner animation="border" size="sm" /> Adding...</> : 'Add Screening'}
                     </Button>
                 </Modal.Footer>
             </Modal>
