@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 function MultiplexList(props) {
     const [multiplexes, setMultiplexes] = useState([]);
@@ -42,17 +43,23 @@ function MultiplexList(props) {
 
     if (multiplexes.length === 0) {
         return (
+            <>
+        <Navbar/>
             <div className="vh-100 d-flex align-items-center justify-content-center" style={{ backgroundImage: 'url(https://c4.wallpaperflare.com/wallpaper/607/847/687/deadpool-2-hd-4k-movies-wallpaper-preview.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                <Navbar/>
                 <div className="container bg-white rounded shadow p-4" style={{ opacity: 0.9 }}>
                     <h1 className="text-black text-center">
                         Oops... No multiplexes are currently screening 
                     </h1>
                 </div>
             </div>
+            </>
         );
     }
 
     return (
+        <>
+        <Navbar/>
         <div className="vh-100 d-flex align-items-center justify-content-center" style={{ backgroundImage: 'url(https://c4.wallpaperflare.com/wallpaper/607/847/687/deadpool-2-hd-4k-movies-wallpaper-preview.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="container bg-white rounded shadow p-4" style={{ opacity: 0.9 }}>
                 <div className="text-center mb-4">
@@ -105,6 +112,7 @@ function MultiplexList(props) {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

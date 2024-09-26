@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Navbar from './Navbar';
 
 function MultiplexListForMovie() {
     const movieName = "Deadpool and wovlerine and someone";
@@ -46,6 +47,8 @@ function MultiplexListForMovie() {
 
     if (multiplexesWithScreenings.length === 0) {
         return (
+            <>
+        <Navbar/>
             <div className="vh-100 d-flex align-items-center justify-content-center" style={{ backgroundImage: 'url(https://c4.wallpaperflare.com/wallpaper/607/847/687/deadpool-2-hd-4k-movies-wallpaper-preview.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                 <div className="container bg-white rounded shadow p-4" style={{ opacity: 0.9 }}>
                     <h1 className="text-black text-center">
@@ -53,10 +56,13 @@ function MultiplexListForMovie() {
                     </h1>
                 </div>
             </div>
+            </>
         );
     }
 
     return (
+        <>
+        <Navbar/>
         <div className="vh-100 d-flex align-items-center justify-content-center" style={{ backgroundImage: 'url(https://c4.wallpaperflare.com/wallpaper/607/847/687/deadpool-2-hd-4k-movies-wallpaper-preview.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="container bg-white rounded shadow p-4" style={{ opacity: 0.9 }}>
                 <div className="text-center mb-4">
@@ -108,6 +114,7 @@ function MultiplexListForMovie() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
