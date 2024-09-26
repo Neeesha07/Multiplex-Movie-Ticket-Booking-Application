@@ -37,14 +37,28 @@ function MultiplexListForMovie() {
     if (loading) return <p>Loading multiplexes...</p>;
     if (error) return <p>Error: {error}</p>;
 
+    const multiplexesWithScreenings = multiplexes.filter(multiplex => 
+        multiplex.movies.some(movie => 
+            movie.movieName === movieName && 
+            movie.screenings.some(screening => screening.availableSeats.length > 0 && new Date(screening.timeSlot).toISOString().split('T')[0] === date)
+        )
+    );
 
-
+    if (multiplexesWithScreenings.length === 0) {
+        return (
+            <div className="vh-100 d-flex align-items-center justify-content-center" style={{ backgroundImage: 'url(https://c4.wallpaperflare.com/wallpaper/607/847/687/deadpool-2-hd-4k-movies-wallpaper-preview.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                <div className="container bg-white rounded shadow p-4" style={{ opacity: 0.9 }}>
+                    <h1 className="text-black text-center">
+                        Oops... No multiplexes are currently screening <span className="text-primary">{movieName}</span>
+                    </h1>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="vh-100 d-flex align-items-center justify-content-center" style={{ backgroundImage: 'url(https://c4.wallpaperflare.com/wallpaper/607/847/687/deadpool-2-hd-4k-movies-wallpaper-preview.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="container bg-white rounded shadow p-4" style={{ opacity: 0.9 }}>
-
-
                 <div className="text-center mb-4">
                     <h1 className="text-black" style={{ fontSize: '2.5rem' }}>
                         Available Multiplexes for <span className="text-primary">{movieName}</span>
@@ -53,7 +67,6 @@ function MultiplexListForMovie() {
                         on <span className="font-weight-bold">{new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
                     </h2>
                 </div>
-
 
                 <div className="row">
                     {multiplexes.map(multiplex => {
@@ -72,7 +85,6 @@ function MultiplexListForMovie() {
                                     <div className="card-body">
                                         <h5 className="card-title">{multiplex.multiplexName}</h5>
                                         <p className="card-text">{multiplex.multiplexLocation}</p>
-                                        {/* <h6>Available Timeslots:</h6> */}
                                         <div className="d-flex flex-wrap">
                                             {availableScreenings.map(screening => (
                                                 <button
