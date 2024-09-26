@@ -154,6 +154,9 @@ public class MultiplexServiceImpl implements MultiplexService{
 		movie.setMovieName(tempMovie.getMovieName());
 		movie.setMovieGenre(tempMovie.getMovieGenre());
 		movie.setMovieRating(tempMovie.getMovieRating());
+		movie.setMovieRating(tempMovie.getMovieRating());
+		movie.setMovieDescription(tempMovie.getMovieDescription());
+		movie.setMovieDuration(tempMovie.getMovieDuration());
 		movieRepo.save(movie);
 		return true;
 	}

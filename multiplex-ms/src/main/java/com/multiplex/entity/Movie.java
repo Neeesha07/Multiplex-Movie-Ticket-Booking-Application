@@ -29,7 +29,7 @@ public class Movie {
 	@Id
 	@GeneratedValue
 	private Long movieId;
-	@Column(unique = true)
+	
 	private String movieName;
 	private String movieGenre;
 	private String movieRating;
