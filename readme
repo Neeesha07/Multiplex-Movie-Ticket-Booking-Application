@@ -1,41 +1,54 @@
-A multiplex movie booking app where a
-- customer/user has the option to book movies from their choice of multiplex and timeslot. 
-- A multiplex owner can add his multiplex with his set of movies into the application and display it to the customer.
+	@PostMapping("/loginUser")
+	public Users getUserByUsername(@RequestParam String username,@RequestParam String password) {
+		Users u=userRepository.getUserByUsername(username);
+		if (bCryptPasswordEncoder.matches(password, u.getPassword())) {
+		return u ;
+		}
+		System.out.println("User is null");
+		return null;
+	}
+
+package com.utils;
+
+import java.net.URI;
+import java.util.Set;
+
+import javax.naming.AuthenticationException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.web.server.WebFilterExchange;
+import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+
+import reactor.core.publisher.Mono;
+@Component
+public class CustomAuthenticationHandler implements ServerAuthenticationSuccessHandler {
 
 
-## Microservice List - 
-- Tickets MS
-- Multiplex MS
-- UserAuth Ms
-- Feedback MS
+	@Override
+    public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
+//		Mono<Void> asyncTask = Mono.fromRunnable(() -> {
+////            // Example async work (e.g., log successful login or publish an event)
+//            System.out.println("User " + authentication.getName() + " logged in successfully.");
+//            // Simulate asynchronous task
+//        });
+//
+//        // Ensure that the async task completes before setting the response
+//        return asyncTask.then(Mono.defer(() -> {
+//            // Set response status to 200 OK after async task completes
+//            webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
+//            return Mono.empty();
+//        }));
+			 webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
+		        
+		        return Mono.empty();  // Always succeed without further checks
+	}
+}
 
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import RegisterMultiplexOwner from './components/RegisterMultiplexOwner';
-import RegisterTicketBooker from './components/RegisterTicketBooker';
-import Register from './components/Register';
-import LoginPage from './components/LoginPage';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Dashboard from './components/DashBoard';
+	
 
 
-const App = () => {
-    return (
-        <Provider store={store}>
-            <Router>
-                <Routes>
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/register-owner" element={<RegisterMultiplexOwner />} />
-                    <Route path="/register-booker" element={<RegisterTicketBooker />} />
-                    <Route path="/multiplex/dashboard" element={<Dashboard />} />
-                    <Route path="/" element={<Navigate to="/login" replace />} />
-                </Routes>
-            </Router>
-        </Provider>
-    );
-};
-
-export default App;
