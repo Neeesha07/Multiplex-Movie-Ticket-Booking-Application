@@ -10,7 +10,7 @@ import com.entity.Ticket;
 
 @Repository
 public interface TicketRepo extends JpaRepository<Ticket, Long>{
-    @Query("select t from Ticket t where t.ticketBooker.bookerId=?1")
+	@Query("SELECT t FROM Ticket t WHERE t.ticketBooker.bookerId = ?1 AND t.ticketstatus = 'BOOKED'")
 	List<Ticket> findTicketByBookerId(Long bookerid);
     
    

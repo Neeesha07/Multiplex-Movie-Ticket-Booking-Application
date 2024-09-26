@@ -56,6 +56,7 @@ public class TicketBookerImpl implements TicketBookerDao {
 		TicketBooker ticketBooker=getticketBooker(id);
 		if(ticketBooker!=null) {
 			ticketBooker.setBookerMail(ticketbookerDetails.getBookerMail());
+			ticketBooker.setForeignUserId(ticketbookerDetails.getForeignUserId());
 			ticketBooker.setBookerName(ticketbookerDetails.getBookerName());
 			ticketBooker.setBookerContact(ticketbookerDetails.getBookerContact());
 			ticketBooker.setBookerPassword(ticketbookerDetails.getBookerPassword());

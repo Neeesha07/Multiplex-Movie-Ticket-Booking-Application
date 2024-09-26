@@ -27,6 +27,7 @@ import com.service.PaymentsDaoImpl;
 
 @RestController
 @RequestMapping("/ticketBooker")
+@CrossOrigin(origins = "http://localhost:3000") 
 public class RestAppController 
 {
 	

@@ -78,13 +78,13 @@ public class TicketImpl implements TicketDao{
 		
 	    Ticket ticket = ticketRepo.findById(ticket_id).orElse(null);
 	    if (ticket != null) {
-	    	Ticket ticketObject = ticketRepo.getById(ticket_id);
+	    	
 			ObjectMapper mapper = new ObjectMapper();
-			String bookingURL="http://localhost:8081/multiplex/cancelseats/"+ticketObject.getScreeningId();
+			String bookingURL="http://localhost:8081/multiplex-ms/cancelseats/"+ticket.getScreeningId();
 			String status = builder.build()
 					.post()
 					.uri(bookingURL)
-					.bodyValue(ticketObject.getConfirmedSeats())
+					.bodyValue(ticket.getConfirmedSeats())
 					.retrieve()
 					.bodyToMono(String.class)
 					.block();
@@ -143,7 +143,7 @@ public class TicketImpl implements TicketDao{
 		// TODO Auto-generated method stub
 		Ticket ticketObject = ticketRepo.getById(ticketId);
 		ObjectMapper mapper = new ObjectMapper();
-		String bookingURL="http://localhost:8081/multiplex/bookseats/"+ticketObject.getScreeningId();
+		String bookingURL="http://localhost:8081/multiplex-ms/bookseats/"+ticketObject.getScreeningId();
 		String status = builder.build()
 				.post()
 				.uri(bookingURL)
