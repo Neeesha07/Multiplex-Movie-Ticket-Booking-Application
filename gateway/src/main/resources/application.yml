@@ -9,7 +9,7 @@ spring:
    routes:
     - id: FEEDBACK
       predicates:
-       - Path=/feedbackService/**
+       - Path=/feedback/**
       uri: lb://feedback
     - id: ml
       predicates:

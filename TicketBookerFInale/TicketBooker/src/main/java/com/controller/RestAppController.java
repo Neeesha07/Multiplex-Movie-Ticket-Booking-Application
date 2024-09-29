@@ -26,8 +26,7 @@ import com.entity.Discounts;
 import com.service.PaymentsDaoImpl;
 
 @RestController
-@RequestMapping("/ticketBooker")
-@CrossOrigin(origins = "http://localhost:3000") 
+@RequestMapping("/ticketBooker") 
 public class RestAppController 
 {
 	

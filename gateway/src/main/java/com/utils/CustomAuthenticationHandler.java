@@ -21,18 +21,12 @@ public class CustomAuthenticationHandler implements ServerAuthenticationSuccessH
 
 	@Override
     public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
-		Mono<Void> asyncTask = Mono.fromRunnable(() -> {
-            // Example async work (e.g., log successful login or publish an event)
-            System.out.println("User " + authentication.getName() + " logged in successfully.");
-            // Simulate asynchronous task
-        });
+		
 
-        // Ensure that the async task completes before setting the response
-        return asyncTask.then(Mono.defer(() -> {
-            // Set response status to 200 OK after async task completes
-            webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
-            return Mono.empty();
-        }));
+		 webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.OK);
+	        
+	        return Mono.empty();  // Always succeed without further checks
+        
 	}
 }
 

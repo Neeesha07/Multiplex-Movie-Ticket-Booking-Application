@@ -16,7 +16,7 @@ import com.entity.Users;
 import com.repository.UserRepository;
 
 import reactor.core.publisher.Mono;
-@CrossOrigin(origins="*")
+@CrossOrigin(origins="localhost:3000")
 @RestController
 public class AppController {
 @Autowired
@@ -30,8 +30,17 @@ BCryptPasswordEncoder bCryptPasswordEncoder;
 		Users u =Users.builder().username(username).password(bCryptPasswordEncoder.encode(password)).roles(roles).build();
 		
 		userRepository.save(u);
-		return u;
-		
+		return u;	
+	}
+	
+	@PostMapping("/loginUser")
+	public Users getUserByUsername(@RequestParam String username,@RequestParam String password) {
+		Users u=userRepository.getUserByUsername(username);
+		if (bCryptPasswordEncoder.matches(password, u.getPassword())) {
+		return u ;
+		}
+		System.out.println("User is null");
+		return null;
 	}
 	
 	@GetMapping("/userByUsername")

@@ -36,7 +36,6 @@ import com.multiplex.service.TicketBookerDaoImpl;
 
 @RestController
 @RequestMapping("/multiplex-ms")
-
 public class RestApp {
 	
 	@Autowired
@@ -151,8 +150,7 @@ public class RestApp {
 		return dao2.getMovieFromMultiplex(multiplex_id);
 	}
 	
-	@GetMapping("/getMultiplex/{owner_id}")
-	@CrossOrigin(origins = "http://localhost:3000") 
+	@GetMapping("/getMultiplex/{owner_id}") 
 	public List<Multiplex> getMultiplexFromOwner(@PathVariable long owner_id) {
 		return dao2.getMultiplexFromOwner(owner_id);
 	}
@@ -249,8 +247,7 @@ public class RestApp {
 		service.weeklyCleanUp();
 	}
 
-	@GetMapping("/getMovieByOwner/{owner_id}")
-	@CrossOrigin(origins = "http://localhost:3000") 
+	@GetMapping("/getMovieByOwner/{owner_id}") 
 	public List<Movie> getMovieFromOwner(@PathVariable long owner_id) {
 		return dao2.listAllMoviesByOwner(owner_id);
 	}
@@ -268,8 +265,9 @@ public class RestApp {
 	
 	
 	@GetMapping("/getowneridbyuserid/{userid}")
-	Long getOwnerIdByForeignUserId(@PathVariable Long userid) {
-		
+	Long getOwnerIdByForeignUserId(@PathVariable Long userid)
+	{
+		System.out.println(userid);
 		return service.getOwnerIdByForeignUserId(userid);
 	}
 	
