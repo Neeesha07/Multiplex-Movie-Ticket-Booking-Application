@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Container, Row, Col } from 'react-bootstrap'; // Import Bootstrap components
 
-const Stats = () => {
+const Stats = ({ownerId}) => {
     const [grossingMovie, setGrossingMovie] = useState('');
     const [revenue, setRevenue] = useState(0);
     const [ticketsSold, setTicketsSold] = useState(0);
@@ -11,7 +11,7 @@ const Stats = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const movieResponse = await fetch(`http://win10-2-186:8888/multiplex-ms/getHighestGrossing/${longId}`);
+                const movieResponse = await fetch(`http://win10-2-186:8888/multiplex-ms/getHighestGrossing/${ownerId}`);
                 if (!movieResponse.ok) throw new Error('Failed to fetch highest grossing movie');
 
                 const movieData = await movieResponse.json();

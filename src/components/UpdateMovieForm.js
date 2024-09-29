@@ -24,7 +24,7 @@ const UpdateMovieForm = ({ ownerId }) => {
     useEffect(() => {
         if (show) {
             setLoading(true);
-            axios.get(`http://win10-2-186:8888/multiplex-ms/getMultiplex/1`)
+            axios.get(`http://win10-2-186:8888/multiplex-ms/getMultiplex/${ownerId}`)
                 .then((response) => {
                     setMultiplexes(response.data);
                     setLoading(false);
