@@ -1,0 +1,11 @@
+/* styles.css */
+.feedback-card {
+    transition: transform 0.2s;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+  }
+  
+  .feedback-card:hover {
+    transform: scale(1.05);
+  }
+  
