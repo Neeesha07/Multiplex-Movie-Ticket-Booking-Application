@@ -8,6 +8,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EntityScan("com.multiplex.entity")
 @EnableScheduling
 @EnableDiscoveryClient
+@EnableKafka
 @RefreshScope
 public class MultiplexMsApplication {
 

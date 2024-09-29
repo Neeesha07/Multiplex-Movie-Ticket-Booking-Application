@@ -41,5 +41,7 @@ public interface MultiplexDao2 {
 
 //	public List<String> listAllMovies();
 //	public List<Multiplex> findMultiplexByMovie(String movieName);
+	
+	String getKafkaMessage();
 
 }

@@ -108,5 +108,18 @@ public class TicketBookerImpl implements TicketBookerDao {
 			}
 			return "commentAdded";
 		}
+
+		String receivedMessage;
+		
+		@KafkaListener(topics = "ticketbooker", groupId = "ticketbooker_group")
+	    public void listen(String message) {
+	        receivedMessage = message.replace("ticketbooker-", "");  // Strip the prefix
+	    }
+
+	    @Override
+	    public String getKafkaMessage() {
+	        return receivedMessage;
+	    }
+
 		
 }

@@ -15,6 +15,9 @@ public interface TicketBookerDao {
 	public List<TicketBooker> getallticketBooker();
 	public Feedback addFeedback(String title, String feedbackBody);
 	public TicketBooker getTicketBookerIdbyForeignUserId(Long foreignUserId); 
+	
+	//kafka
+	String getKafkaMessage();
 
 	
 }

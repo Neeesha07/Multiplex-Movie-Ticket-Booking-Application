@@ -235,20 +235,17 @@ public class MultipleDao2Impl implements MultiplexDao2{
 		}
 		//**************************KAFKA*************************************************
 		
-		@KafkaListener(topics = "announcement",groupId = "abc")
-		public String kafkaListener(String data) {
-			
-			if(data.startsWith("CUST_")) {
-				System.out.println(data.substring(5));
-			}
-			else if(data.startsWith("MOWNER_")) {
-				System.out.println(data.substring(7));
-			}
-			else {
-				System.out.println(data.substring(4));
-			}
-			return "commentAdded";
-		}
+		String receivedMessage;
+		
+		@KafkaListener(topics = "multiplex", groupId = "multiplex_group")
+	    public void listen(String message) {
+	        receivedMessage = message.replace("multiplex-", "");  // Strip the prefix
+	    }
+
+	    @Override
+	    public String getKafkaMessage() {
+	        return receivedMessage;
+	    }
 
 
 	}
