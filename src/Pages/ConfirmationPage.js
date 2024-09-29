@@ -26,7 +26,7 @@ const ConfirmationPage = () => {
   };
 
   const handleReturnHome = () => {
-    navigate('/');
+    navigate('/ticketBooker/dashboard');
   };
 
 //   if (loading) {

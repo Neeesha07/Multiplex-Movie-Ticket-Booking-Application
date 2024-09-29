@@ -26,7 +26,7 @@ const Navbar = () => {
                 <div className="container-fluid">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link to="/" className="nav-link text-light">Home</Link>
+                            <Link to="/ticketBooker/dashboard" className="nav-link text-light">Home</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/discounts" className="nav-link text-light">Discounts</Link>
@@ -64,7 +64,7 @@ const Navbar = () => {
                                 <li><Link to="/edit-profile" className="dropdown-item">Edit Profile</Link></li>
                                 <li><Link to="/your-orders" className="dropdown-item">Your Bookings</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
-                                <li><Link to="/logout" className="dropdown-item">Log Out</Link></li>
+                                <li><Link to="/" className="dropdown-item">Log Out</Link></li>
                             </ul>
                         </li>
                     </ul>

@@ -5,6 +5,7 @@ import { login } from '../features/authSlice';
 import { loginUser } from '../features/authAPI';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Film } from 'lucide-react';
+import { setUserId } from '../features/userIdSlice';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -22,13 +23,14 @@ const LoginPage = () => {
       console.log(userid);
       console.log(role);
       dispatch(login(user));
+      dispatch(setUserId(userid));
       navigate(
         role=== 'ADMIN'
           ? '/admin/dashboard'
           : role=== 'MOWNER'
           ? `/multiplex-ms/dashboard/${userid}`
           : role=== 'CUST'
-          ? `/ticketBooker/dashboard/${userid}`
+          ? `/ticketBooker/dashboard`
           : '/multiplex/dashboard'
       );
     } catch (error) {

@@ -76,7 +76,7 @@ const PaymentPage = () => {
         console.error('Error cancelling payment:', error);
       }
     }
-    navigate('/');
+    navigate('/ticketBooker/dashboard');
   };
 
   const handleRegenerateCaptcha = () => {

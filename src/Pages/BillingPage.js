@@ -98,7 +98,7 @@ const BillingPage = () => {
         await axios.post(`http://win10-2-186:8888/ticketBooker/cancelPayment/${ticket.ticketId}`);
         sessionStorage.removeItem('ticketId');
         dispatch(clearTicket());
-        navigate('/')
+        navigate('/ticketBooker/dashboard')
       } catch (error) {
         console.error('Error deleting the ticket on cancel:', error);
       }

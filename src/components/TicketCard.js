@@ -130,7 +130,7 @@ const TicketCard = ({ ticket,onTicketDeleted }) => {
 
     return (
        
-        <div className="Card mb-3 bg-light border border-dark">
+        <div className="Card mb-3 pb-2 bg-light border border-dark">
             <div className="card-header bg-primary text-white">
                 <h5 className="card-title mb-0">{ticket.movieName}</h5>
             </div>

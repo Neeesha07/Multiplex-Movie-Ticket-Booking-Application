@@ -5,6 +5,7 @@ import movieReducer from '../features/movieSlice';
 import discountReducer from '../features/discountSlice';
 import ticketBookerReducer from '../features/ticketBookerSlice';
 import authReducer from '../features/authSlice';
+import userIdReducer from '../features/userIdSlice';
 export const store = configureStore({
   reducer: {
     ticket: ticketReducer,
@@ -12,5 +13,6 @@ export const store = configureStore({
     discount: discountReducer,
     ticketBooker: ticketBookerReducer,
     auth: authReducer,
+    userId: userIdReducer,
   },
 });

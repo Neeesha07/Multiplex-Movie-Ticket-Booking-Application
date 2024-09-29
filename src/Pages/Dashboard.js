@@ -16,8 +16,9 @@ const Dashboard = () => {
   const { ticketBooker, loading: ticketBookerLoading } = useSelector((state) => state.ticketBooker);
   const [searchTerm, setSearchTerm] = React.useState('');
 
-  const { userid } = useParams();
-  const foreignUserId = userid;
+ 
+  const foreignUserId = useSelector((state) => state.userId);
+  console.log(foreignUserId);
 
   useEffect(() => {
     const fetchAllMovies = async () => {

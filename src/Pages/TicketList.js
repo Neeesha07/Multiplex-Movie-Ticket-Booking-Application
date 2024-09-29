@@ -109,6 +109,8 @@ const TicketList = () => {
     fetchTickets();
   }, [fetchTickets]);
 
+  
+
   if (loading) {
     return <div>Loading...</div>;
   }

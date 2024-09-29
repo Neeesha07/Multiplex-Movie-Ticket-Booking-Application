@@ -30,7 +30,7 @@ function App() {
     <div className="App">
       
       <Routes>
-          <Route path="/ticketBooker/dashboard/:userid" element={<Dashboard/>} />
+          <Route path="/ticketBooker/dashboard" element={<Dashboard/>} />
           <Route path="/movie/:movieName" element={<MovieDetails/>} />
           <Route path="/discounts" element={<DiscountList />} />
           <Route path="/seats/:movieName/:screeningId" element={<SeatBooking/>} />
