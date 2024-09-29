@@ -2,7 +2,9 @@ package com.example.feedback.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +25,22 @@ public class FeedbackController {
 	@Autowired
 	FeedbackServiceInt feedbackServiceInt;
 	
+	
+	@Autowired
+	private KafkaTemplate template;
+	
 	@PostMapping("addFeedback")
 	public String addFeedback(@RequestBody Feedback feedback) {
 		feedbackServiceInt.addFeedback(feedback);
 		return "Feedback Added!!";
+	}
+	
+	
+	@PostMapping("/broadcast")
+	public String broadcast(@RequestBody Feedback feedback) {
+		template.send("multiplex",feedback.getFeedbackBody());
+		template.send("ticketbooker",feedback.getFeedbackBody());
+		return "Message Broadcasted!!";
 	}
 	
 	@GetMapping("feedbacks")
