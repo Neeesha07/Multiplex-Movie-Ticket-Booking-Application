@@ -37,14 +37,15 @@ const MultiplexDashBoard = () => {
                 <NavbarMultiplex />
                 <div className="row mt-4">
                     <div className="col-md-8">
-                        <Stats />
+                        <Stats ownerid={ownerId}/>
                     </div>
                     <div className="col-md-4">
                         {ownerId !== null && <OwnerInfo ownerId={ownerId} />}
                     </div>
                 </div>
                 <div className="mt-4">
-                    {ownerId !== null && <ActionButtons ownerId={ownerId} />}
+                    {/* {ownerId !== null && <ActionButtons ownerId={ownerId} />} */}
+                    <ActionButtons ownerId={ownerId} />
                 </div>
             </div>
         </div>

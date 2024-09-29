@@ -22,17 +22,17 @@ const ActionButtons = ({ ownerId }) => {
                                 <AddMovieForm ownerId={ownerId} />
                             </div>
                             <div className="col-6 col-md-4">
-                                <AddFeedback />
+                                <AddFeedback ownerId={ownerId}/>
                             </div>
                             <div className="col-6 col-md-4">
                                 {/* <EditMultiplexForm /> */}
-                                <UpdateMovieForm/>
+                                <UpdateMovieForm ownerId={ownerId}/>
                             </div>
                             <div className="col-6 col-md-4">
-                                <AddScreeningForm />
+                                <AddScreeningForm ownerId={ownerId}/>
                             </div>
                             <div className="col-6 col-md-4">
-                                <DeleteMovieForm />
+                                <DeleteMovieForm ownerId={ownerId}/>
                             </div>
                         </div>
                     </div>
